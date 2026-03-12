@@ -13,6 +13,32 @@ const fmtNum = (n) => n ? n.toLocaleString('pt-BR') : '-';
 const fmtBRL = (n) => n ? 'R$ ' + n.toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + ' mi' : '-';
 const fmtArea = (n) => n ? n.toLocaleString('pt-BR', {maximumFractionDigits:0}) + ' m²' : '-';
 
+/**
+ * Verifica se um item possui dados reais vinculados da planilha.
+ * KMLs sem vinculação geram e={nome:" - ", regional:null, ...} — todos os campos null.
+ * Itens da planilha sem KML possuem regional preenchido mas p:[] e c:null.
+ * A presença de e.regional é o indicador mais confiável de vinculação real.
+ */
+function isLinked(item) {
+  return !!(item.e && item.e.regional !== null && item.e.regional !== undefined);
+}
+
+/**
+ * Retorna o melhor centroide disponível para um item:
+ * 1. item.c (centroide do KML)
+ * 2. centroide calculado manualmente do primeiro polígono
+ */
+function getCentroid(item) {
+  if (item.c) return item.c;
+  if (item.p && item.p.length > 0 && item.p[0].length > 0) {
+    const coords = item.p[0];
+    const lat = coords.reduce((s, c) => s + c[0], 0) / coords.length;
+    const lng = coords.reduce((s, c) => s + c[1], 0) / coords.length;
+    return [lat, lng];
+  }
+  return null;
+}
+
 // ===== STATS =====
 document.getElementById('statsGrid').innerHTML = `
   <div class="stat-card"><div class="val">${stats.total}</div><div class="label">Empreendimentos</div></div>
@@ -113,7 +139,10 @@ if (overlay) overlay.addEventListener('click', closeSidebar);
 if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
 
 // ===== FILTER CHIPS =====
-const allRegionals = [...new Set(items.filter(i => i.e).map(i => i.e.regional).filter(Boolean).filter(r => r !== 'None'))].sort();
+// Usa isLinked para garantir que só regionais com dados reais apareçam
+const allRegionals = [...new Set(
+  items.filter(i => isLinked(i)).map(i => i.e.regional).filter(Boolean).filter(r => r !== 'None')
+)].sort();
 
 const chipsEl = document.getElementById('filterChips');
 const allChip = document.createElement('div');
@@ -163,8 +192,14 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
 
 // ===== POPUP CONTENT =====
 function popupContent(item) {
+  // FIX: usa isLinked() para detectar itens sem dados reais (KML sem vínculo na planilha).
+  // Antes, item.e existia mas com nome:" - " e todos os campos null, causando card vazio.
+  if (!isLinked(item)) {
+    return `
+      <div class="popup-title">${item.n}</div>
+      <div class="popup-nodata">Área KML sem dados da planilha vinculados</div>`;
+  }
   const e = item.e;
-  if (!e) return `<div class="popup-title">${item.n}</div><div class="popup-nodata">Sem dados da planilha vinculados</div>`;
   return `
     <div class="popup-city">${e.regional || ''} · ${e.cidade || ''}</div>
     <div class="popup-title">${e.empreendimento || e.nome}</div>
@@ -184,20 +219,29 @@ function popupContent(item) {
 
 // ===== FILTER LOGIC =====
 function passesFilter(item) {
-  if (somenteVinculados && !item.e) return false; // ← linha nova
+  // FIX: usa isLinked() em vez de !item.e para o filtro "Vinculados",
+  // já que item.e pode existir mas com dados vazios (KML sem vínculo).
+  if (somenteVinculados && !isLinked(item)) return false;
   if (activeRegionals.size > 0) {
-    const r = item.e ? item.e.regional : null;
+    const r = isLinked(item) ? item.e.regional : null;
     if (!r || !activeRegionals.has(r)) return false;
   }
   if (searchTerm) {
-    const haystack = [item.n, item.e ? item.e.nome : '', item.e ? item.e.cidade : '', item.e ? item.e.empreendimento : '', item.e ? item.e.regional : ''].join(' ').toUpperCase();
+    const haystack = [
+      item.n,
+      item.e ? item.e.nome : '',
+      item.e ? item.e.cidade : '',
+      item.e ? item.e.empreendimento : '',
+      item.e ? item.e.regional : ''
+    ].join(' ').toUpperCase();
     if (!haystack.includes(searchTerm)) return false;
   }
   return true;
 }
 
 function getColor(item) {
-  if (item.e && item.e.regional) return colors[item.e.regional] || '#7f8c8d';
+  // FIX: usa isLinked() para não usar a cor de itens com regional:null
+  if (isLinked(item)) return colors[item.e.regional] || '#7f8c8d';
   return '#94a3b8';
 }
 
@@ -215,8 +259,9 @@ function updateMap() {
     if (!passesFilter(item)) return;
     visibleCount++;
     const color = getColor(item);
+    const centroid = getCentroid(item);
 
-    // Draw polygons
+    // --- Desenha polígonos ---
     item.p.forEach(polyCoords => {
       const polygon = L.polygon(polyCoords, {
         color: color, weight: 2.5, opacity: 0.9,
@@ -224,44 +269,60 @@ function updateMap() {
       });
       polygon.bindPopup(popupContent(item), {maxWidth: 320});
       polygon.addTo(layerGroup);
-      polygonLayers.push({layer: polygon, item: item, idx: idx});
+      // Armazena com centroide calculado para uso no click da sidebar
+      polygonLayers.push({layer: polygon, item: item, idx: idx, centroid: centroid});
     });
 
-    // Centroid marker fallback
-    if (item.p.length === 0 && item.c) {
-      const marker = L.circleMarker(item.c, {
+    // FIX: marcador de centroide para itens SEM polígono mas COM centroide.
+    // Também adicionado ao polygonLayers para que o click possa abrir o popup.
+    if (item.p.length === 0 && centroid) {
+      const marker = L.circleMarker(centroid, {
         radius: 7, color: color, fillColor: color, fillOpacity: 0.5, weight: 2.5
       });
       marker.bindPopup(popupContent(item), {maxWidth: 320});
       marker.addTo(layerGroup);
+      // FIX: antes o marker não era adicionado ao polygonLayers,
+      // impossibilitando abrir o popup pelo click na sidebar
+      polygonLayers.push({layer: marker, item: item, idx: idx, centroid: centroid, isMarker: true});
     }
 
-    // List item
+    // --- Item da lista lateral ---
     const div = document.createElement('div');
     div.className = 'list-item';
-    const displayName = item.e ? (item.e.empreendimento || item.e.nome) : item.n;
-    const cityText = item.e ? item.e.cidade : '';
-    const regional = item.e ? item.e.regional : '';
-    const unitsText = item.e && item.e.total_unidades ? fmtNum(item.e.total_unidades) + ' un.' : '';
+
+    // FIX: usa isLinked() para decidir o nome a exibir.
+    // Antes, item.e.empreendimento || item.e.nome retornava " - " para KMLs sem vínculo.
+    const linked = isLinked(item);
+    const displayName = linked ? (item.e.empreendimento || item.e.nome || item.n) : item.n;
+    const cityText   = linked ? (item.e.cidade || '') : '';
+    const regional   = linked ? (item.e.regional || '') : '';
+    const unitsText  = linked && item.e.total_unidades ? fmtNum(item.e.total_unidades) + ' un.' : '';
+    // Indica visualmente se o item não tem localização no mapa
+    const hasLocation = !!(centroid);
 
     div.innerHTML = `
       <div class="name" title="${item.n}">${displayName}</div>
       <div class="meta">
         ${regional ? `<span class="regional-tag" style="background:${colors[regional] || '#7f8c8d'}">${regional}</span>` : ''}
-        <span>${cityText}</span>
+        ${cityText ? `<span>${cityText}</span>` : ''}
         ${unitsText ? `<span>${unitsText}</span>` : ''}
-        ${!item.e ? '<span class="no-match">sem dados</span>' : ''}
+        ${!linked ? '<span class="no-match">sem dados</span>' : ''}
+        ${!hasLocation ? '<span class="no-match" title="Sem coordenadas cadastradas">📍 sem localização</span>' : ''}
       </div>`;
 
     div.onclick = () => {
-      if (item.c) map.flyTo(item.c, 14, {duration: 1});
-      const pl = polygonLayers.find(p => p.idx === idx);
-      if (pl) setTimeout(() => pl.layer.openPopup(), 600);
+      // FIX: usa getCentroid() para garantir navegação mesmo quando
+      // item.c é null mas há polígono disponível
+      if (centroid) {
+        map.flyTo(centroid, 14, {duration: 1});
+        const pl = polygonLayers.find(p => p.idx === idx);
+        if (pl) setTimeout(() => pl.layer.openPopup(centroid), 600);
+      }
       document.querySelectorAll('.list-item').forEach(el => el.classList.remove('highlight'));
       div.classList.add('highlight');
-      // Close sidebar on mobile after selection
       if (window.innerWidth <= 768) closeSidebar();
     };
+
     listEl.appendChild(div);
   });
 
