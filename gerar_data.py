@@ -409,11 +409,29 @@ def main():
             sem_kml += 1
 
     # ── 5. Calcular estatísticas ───────────────────────────────────
-    on_map         = sum(1 for i in items if i["p"])
-    total_unidades = sum((i["e"].get("total_unidades") or 0) for i in items if i["e"])
-    total_vgv      = sum((i["e"].get("vgv_total") or 0) for i in items if i["e"])
-    total_vgv_bt   = sum((i["e"].get("vgv_bt") or 0) for i in items if i["e"])
-    total_area     = sum(calcular_area(i["p"]) for i in items if i["p"])
+    # ATENÇÃO: total_vgv, total_vgv_bt e total_unidades são calculados
+    # diretamente de registros_excel (todos os registros, incluindo duplicatas
+    # de nome), para evitar perda de valores causada pela deduplicação do índice.
+    on_map     = sum(1 for i in items if i["p"])
+    total_area = sum(calcular_area(i["p"]) for i in items if i["p"])
+
+    col_vgv    = COLUNAS.get("vgv_total")
+    col_vgv_bt = COLUNAS.get("vgv_bt")
+    col_units  = COLUNAS.get("total_unidades")
+
+    def _soma_excel(col):
+        total = 0.0
+        for reg in registros_excel:
+            for k, v in reg.items():
+                if k.strip().lower() == col.strip().lower():
+                    if isinstance(v, (int, float)) and not (isinstance(v, float) and math.isnan(v)):
+                        total += v
+                    break
+        return total
+
+    total_vgv      = _soma_excel(col_vgv)    if col_vgv    else 0.0
+    total_vgv_bt   = _soma_excel(col_vgv_bt) if col_vgv_bt else 0.0
+    total_unidades = _soma_excel(col_units)  if col_units  else 0.0
 
     stats = {
         "total":       len(items),
