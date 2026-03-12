@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
 <Document>
-	<name>Guarapuava - 24 hectares.kml</name>
+	<name>15 - Vitorino - 64ha - VITORINO</name>
 	<open>1</open>
 	<atom:link rel="app" href="https://www.google.com/earth/about/versions/#earth-pro" title="Google Earth Pro 7.3.6.10441"></atom:link>
-	<StyleMap id="inline">
+	<Style id="inline">
+		<LineStyle>
+			<color>ff0000ff</color>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle>
+			<fill>0</fill>
+		</PolyStyle>
+	</Style>
+	<Style id="inline0">
+		<LineStyle>
+			<color>ff0000ff</color>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle>
+			<fill>0</fill>
+		</PolyStyle>
+	</Style>
+	<StyleMap id="inline1">
 		<Pair>
 			<key>normal</key>
-			<styleUrl>#inline1</styleUrl>
+			<styleUrl>#inline</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#inline0</styleUrl>
 		</Pair>
 	</StyleMap>
-	<Style id="inline0">
-		<LineStyle>
-			<color>ff0000ff</color>
-			<width>4</width>
-		</LineStyle>
-		<PolyStyle>
-			<fill>0</fill>
-		</PolyStyle>
-	</Style>
-	<Style id="inline1">
-		<LineStyle>
-			<color>ff0000ff</color>
-			<width>4</width>
-		</LineStyle>
-		<PolyStyle>
-			<fill>0</fill>
-		</PolyStyle>
-	</Style>
 	<StyleMap id="msn_grn-blank">
 		<Pair>
 			<key>normal</key>
@@ -91,34 +91,34 @@
 		</PolyStyle>
 	</Style>
 	<Placemark>
-		<name>Celso - Guarapuava - 24 hectares</name>
-		<styleUrl>#inline</styleUrl>
+		<name>809 - 64 hectares - Vitorino</name>
+		<styleUrl>#inline1</styleUrl>
 		<Polygon>
 			<tessellate>1</tessellate>
 			<outerBoundaryIs>
 				<LinearRing>
 					<coordinates>
-						-51.52566662019399,-25.39859603732781,0 -51.52154231230364,-25.4050029286127,0 -51.52276305149088,-25.40583304657469,0 -51.52414336500124,-25.40660685870345,0 -51.52590702676525,-25.4038559590238,0 -51.52816521332474,-25.40058781813653,0 -51.52566662019399,-25.39859603732781,0 
+						-52.72813315203461,-26.27430208613566,0 -52.72880944590982,-26.2796233357711,0 -52.72624541101209,-26.27965647233492,0 -52.72578351126592,-26.28286022766682,0 -52.72460269708516,-26.28259155463062,0 -52.72388702453961,-26.28277682093243,0 -52.72352112731313,-26.28282688923877,0 -52.72293874762598,-26.28257471808799,0 -52.72224443868286,-26.28343127459155,0 -52.72179952306538,-26.28275560714906,0 -52.72206205531624,-26.27957309500151,0 -52.72250955141109,-26.27578475838943,0 -52.72009471605024,-26.27593442237284,0 -52.72056091067685,-26.27170005115619,0 -52.72265638281952,-26.27222006089418,0 -52.72261238053132,-26.2730304337327,0 -52.7229501972037,-26.27326394316097,0 -52.7244486997215,-26.27360107390349,0 -52.72813315203461,-26.27430208613566,0 
 					</coordinates>
 				</LinearRing>
 			</outerBoundaryIs>
 		</Polygon>
 	</Placemark>
 	<Placemark>
-		<name>GUARAPUAVA - 24 hectares</name>
+		<name>VITORINO - PARANÁ</name>
 		<LookAt>
-			<longitude>-51.52485371686335</longitude>
-			<latitude>-25.40268957716258</latitude>
+			<longitude>-52.72215718971646</longitude>
+			<latitude>-26.27502042999466</latitude>
 			<altitude>0</altitude>
-			<heading>-1.37461677722263e-07</heading>
-			<tilt>44.51776261579793</tilt>
-			<range>1319.638365603046</range>
+			<heading>-1.008087658686877</heading>
+			<tilt>0</tilt>
+			<range>3268.840904588497</range>
 			<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
 		</LookAt>
 		<styleUrl>#msn_grn-blank</styleUrl>
 		<Point>
 			<gx:drawOrder>1</gx:drawOrder>
-			<coordinates>-51.52485987371647,-25.40269022538195,0</coordinates>
+			<coordinates>-52.7250175953193,-26.27753652399355,0</coordinates>
 		</Point>
 	</Placemark>
 </Document>

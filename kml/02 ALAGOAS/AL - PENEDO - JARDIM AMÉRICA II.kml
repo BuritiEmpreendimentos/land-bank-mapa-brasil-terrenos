@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
 <Document>
-	<name>AL - MARECHAL DEODORO - GARDEM PRIME</name>
+	<name>RESIDENCIAL JARDIM AMERICA II - PENEDO</name>
 	<open>1</open>
 	<description><![CDATA[Powered by Neyton<br/>http://tbn2.blogspot.com/]]></description>
 	<atom:link rel="app" href="https://www.google.com/earth/about/versions/#earth-pro" title="Google Earth Pro 7.3.6.10441"></atom:link>
-	<Style id="0">
-		<LineStyle id="l0LineStyle">
+	<Style id="_perímetro_42">
+		<LineStyle id="l_perímetro_42LineStyle">
 			<color>ff0000ff</color>
 			<width>3</width>
 		</LineStyle>
-		<PolyStyle id="p0PolyStyle">
-			<color>7fffffff</color>
+		<PolyStyle id="p_perímetro_42PolyStyle">
+			<color>7f0099cc</color>
 			<fill>0</fill>
 		</PolyStyle>
 	</Style>
-	<StyleMap id="00">
+	<Style id="_perímetro_420">
+		<LineStyle id="l_perímetro_42LineStyle">
+			<color>ff0000ff</color>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle id="p_perímetro_42PolyStyle">
+			<color>7f0099cc</color>
+			<fill>0</fill>
+		</PolyStyle>
+	</Style>
+	<StyleMap id="_perímetro_421">
 		<Pair>
 			<key>normal</key>
-			<styleUrl>#01</styleUrl>
+			<styleUrl>#_perímetro_420</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
-			<styleUrl>#0</styleUrl>
+			<styleUrl>#_perímetro_42</styleUrl>
 		</Pair>
 	</StyleMap>
-	<Style id="01">
-		<LineStyle id="l0LineStyle">
-			<color>ff0000ff</color>
-			<width>3</width>
-		</LineStyle>
-		<PolyStyle id="p0PolyStyle">
-			<color>7fffffff</color>
-			<fill>0</fill>
-		</PolyStyle>
-	</Style>
 	<StyleMap id="msn_grn-blank">
 		<Pair>
 			<key>normal</key>
@@ -78,17 +78,16 @@
 		</ListStyle>
 	</Style>
 	<Folder>
-		<name>0</name>
-		<open>1</open>
+		<name>_perímetro</name>
 		<Placemark>
-			<name>C727</name>
-			<styleUrl>#00</styleUrl>
+			<name>1BFA14</name>
+			<styleUrl>#_perímetro_421</styleUrl>
 			<Polygon>
 				<tessellate>1</tessellate>
 				<outerBoundaryIs>
 					<LinearRing>
 						<coordinates>
-							-35.83988286009522,-9.75019363440229,0 -35.84178136191873,-9.754756948125049,0 -35.84738946663055,-9.754497901469261,0 -35.84810092983325,-9.753568125749689,0 -35.8482994261287,-9.75257777381203,0 -35.84862374704553,-9.75173362594361,0 -35.84902466285154,-9.750922444611851,0 -35.83988286009522,-9.75019363440229,0 
+							-36.57128804498924,-10.25606529395003,74.23099999999999 -36.57128778350054,-10.25607952035388,74.23099999999999 -36.57087368461264,-10.25973456088314,74.23099999999999 -36.56586061477888,-10.2589780286597,74.23099999999999 -36.56590758185684,-10.25842390890069,74.23099999999999 -36.56571963148439,-10.2583159564803,74.23099999999999 -36.56551864468762,-10.25812305126765,74.23099999999999 -36.56526596489938,-10.25761464737602,74.23099999999999 -36.56503915971291,-10.25711122697447,74.23099999999999 -36.564953573874,-10.25661040192181,74.23099999999999 -36.56515944090156,-10.25584246781487,74.23099999999999 -36.56553099881918,-10.25549209800185,74.23099999999999 -36.5659155412593,-10.25546027961423,74.23099999999999 -36.56631237014882,-10.25545638600087,74.23099999999999 -36.56659744949781,-10.25554563663933,74.23099999999999 -36.56691796150892,-10.25567852893623,74.23099999999999 -36.56725474644938,-10.25565879566331,74.23099999999999 -36.57128804498924,-10.25606529395003,74.23099999999999 
 						</coordinates>
 					</LinearRing>
 				</outerBoundaryIs>
@@ -96,20 +95,20 @@
 		</Placemark>
 	</Folder>
 	<Placemark>
-		<name> MARECHAL DEODORO - GARDEM PRIME</name>
+		<name>PENEDO - JARDIM AMÉRICA II</name>
 		<LookAt>
-			<longitude>-35.84453484369806</longitude>
-			<latitude>-9.752857230297183</latitude>
+			<longitude>-36.56828493812949</longitude>
+			<latitude>-10.25787879951416</latitude>
 			<altitude>0</altitude>
-			<heading>-2.854094960274034</heading>
-			<tilt>21.51135419449415</tilt>
-			<range>1140.969003069353</range>
+			<heading>-10.9126447172251</heading>
+			<tilt>15.28667522497933</tilt>
+			<range>1363.576684780949</range>
 			<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
 		</LookAt>
 		<styleUrl>#msn_grn-blank</styleUrl>
 		<Point>
 			<gx:drawOrder>1</gx:drawOrder>
-			<coordinates>-35.84460836695889,-9.75252305427807,0</coordinates>
+			<coordinates>-36.56835715318461,-10.25755631590979,0</coordinates>
 		</Point>
 	</Placemark>
 </Document>
