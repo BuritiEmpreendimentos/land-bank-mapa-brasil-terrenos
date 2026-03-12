@@ -33,28 +33,28 @@ OUTPUT_PATH = "data.js"
 # Coluna da planilha usada para VINCULAR com a tag <name> do KML.
 # O script compara o valor desta coluna com a tag <name> de dentro do arquivo KML.
 # Se o KML não tiver <name>, usa o nome do arquivo como fallback.
-COLUNA_CHAVE = "nome"
+COLUNA_CHAVE = "Nome"
 
 # Mapeamento das colunas da planilha para os campos do sistema
 # Formato: "campo_no_sistema": "nome_da_coluna_no_excel"
-# Se uma coluna não existir na sua planilha, deixe o valor como None
+# Os nomes à direita devem ser EXATAMENTE iguais aos cabeçalhos da sua planilha.
 COLUNAS = {
-    "nome":                "nome",
-    "codigo":              "codigo",
-    "regional":            "regional",
-    "cidade":              "cidade",
-    "empreendimento":      "empreendimento",
-    "tipo":                "tipo",
-    "year":                "year",
-    "on_off":              "on_off",
-    "area_total":          "area_total",
-    "total_unidades":      "total_unidades",
-    "vgv_total":           "vgv_total",
-    "vgv_bt":              "vgv_bt",
-    "custo_terreno":       "custo_terreno",
-    "custo_construcao":    "custo_construcao",
-    "participacao_buriti": "participacao_buriti",
-    "data_lancamento":     "data_lancamento",
+    "nome":                "Nome",
+    "codigo":              "Código",
+    "regional":            "Regional",
+    "cidade":              "Cidade",
+    "empreendimento":      "Empreendimento",
+    "tipo":                "Tipo",
+    "year":                "Year",
+    "on_off":              "[ON / OFF]",
+    "area_total":          "Area Total",
+    "total_unidades":      "Total de Unidades",
+    "vgv_total":           "VGV Total\n(R$mm)",
+    "vgv_bt":              "VGV Total\n(R$mm) BT",
+    "custo_terreno":       "Custo Total do Terreno\n(Pré Rateio - R$mm)",
+    "custo_construcao":    "Custo de Construção\n(Pré Rateio - R$mm)",
+    "participacao_buriti": "Participação Buriti",
+    "data_lancamento":     "Data de Lançamento",
 }
 
 # Cores por regional (adicione/edite conforme necessário)
@@ -327,8 +327,8 @@ def main():
         # 1ª prioridade: tag <name> do KML
         # 2ª prioridade: nome do arquivo (fallback)
         if nome_kml_tag:
-            chave_kml   = normalizar(nome_kml_tag)
-            nome_display = nome_kml_tag          # nome exibido na interface
+            chave_kml    = normalizar(nome_kml_tag)
+            nome_display = nome_kml_tag
             fonte_chave  = "<name>"
         else:
             chave_kml    = normalizar(nome_arquivo)
