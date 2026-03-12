@@ -10,8 +10,8 @@ let somenteVinculados = false;
 
 // ===== HELPERS =====
 const fmtNum = (n) => n ? n.toLocaleString('pt-BR') : '-';
-const fmtBRL = (n) => n ? 'R$ ' + n.toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + ' mi' : '-';
-const fmtArea = (n) => n ? (n / 10000).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' ha' : '-';
+const fmtBRL  = (n) => n ? 'R$ ' + n.toLocaleString('pt-BR', {minimumFractionDigits:0, maximumFractionDigits:0}) + ' mi' : '-';
+const fmtArea = (n) => n ? (n / 10000).toLocaleString('pt-BR', {minimumFractionDigits:0, maximumFractionDigits:0}) + ' ha' : '-';
 
 /**
  * Verifica se um item possui dados reais vinculados da planilha.
