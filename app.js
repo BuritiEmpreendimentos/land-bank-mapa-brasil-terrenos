@@ -6,6 +6,7 @@ const stats = DATA.stats;
 let activeRegionals = new Set();
 let polygonLayers = [];
 let searchTerm = '';
+let somenteVinculados = false;
 
 // ===== HELPERS =====
 const fmtNum = (n) => n ? n.toLocaleString('pt-BR') : '-';
@@ -17,6 +18,8 @@ document.getElementById('statsGrid').innerHTML = `
   <div class="stat-card"><div class="val">${stats.total}</div><div class="label">Empreendimentos</div></div>
   <div class="stat-card"><div class="val green">${stats.on_map}</div><div class="label">No Mapa (KML)</div></div>
   <div class="stat-card"><div class="val">${fmtNum(Math.round(stats.total_units))}</div><div class="label">Total Unidades</div></div>
+  <div class="stat-card"><div class="val">${fmtArea(stats.total_area)}</div><div class="label">Área Total</div></div>
+  <div class="stat-card"><div class="val green">${fmtBRL(stats.total_vgv_bt)}</div><div class="label">VGV Total BT</div></div>
   <div class="stat-card"><div class="val green">${fmtBRL(stats.total_vgv)}</div><div class="label">VGV Total</div></div>
 `;
 
@@ -124,6 +127,16 @@ allChip.onclick = () => {
 };
 chipsEl.appendChild(allChip);
 
+const vinculadosChip = document.createElement('div');
+vinculadosChip.className = 'chip';
+vinculadosChip.innerHTML = `<span class="dot" style="background:#27ae60"></span>Vinculados`;
+vinculadosChip.onclick = () => {
+  somenteVinculados = !somenteVinculados;
+  vinculadosChip.classList.toggle('active', somenteVinculados);
+  updateMap();
+};
+chipsEl.appendChild(vinculadosChip);
+
 allRegionals.forEach(r => {
   const chip = document.createElement('div');
   chip.className = 'chip';
@@ -171,6 +184,7 @@ function popupContent(item) {
 
 // ===== FILTER LOGIC =====
 function passesFilter(item) {
+  if (somenteVinculados && !item.e) return false; // ← linha nova
   if (activeRegionals.size > 0) {
     const r = item.e ? item.e.regional : null;
     if (!r || !activeRegionals.has(r)) return false;
