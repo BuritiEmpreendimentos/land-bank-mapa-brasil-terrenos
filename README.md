@@ -136,7 +136,7 @@ No início do arquivo, edite as seguintes variáveis conforme necessário:
 
 | Variável | Padrão | Descrição |
 |---|---|---|
-| `EXCEL_PATH` | `AREAS_LAND_BANK.xlsx` | Caminho da planilha Excel |
+| `EXCEL_PATH` | `areas_land_bank_com_id.xlsx` | Caminho da planilha Excel |
 | `EXCEL_SHEET` | `None` (primeira aba) | Nome da aba da planilha |
 | `KML_FOLDER` | `kml` | Pasta com os arquivos KML |
 | `OUTPUT_PATH` | `data.js` | Arquivo de saída |
