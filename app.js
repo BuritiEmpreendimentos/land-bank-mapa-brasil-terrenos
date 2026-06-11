@@ -8,10 +8,16 @@ if (DATA.last_updated) {
   if (el) el.textContent = DATA.last_updated;
 }
 
-// Banner de manutenção — contagem regressiva de 30s para habilitar o botão fechar
+// Banner de manutenção — some automaticamente após 13/06/2026 14:30
+const MANUTENCAO_FIM = new Date('2026-06-13T14:30:00');
+const manutencaoBanner = document.getElementById('manutencaoBanner');
+if (manutencaoBanner && new Date() >= MANUTENCAO_FIM) {
+  manutencaoBanner.style.display = 'none';
+}
+
 const manutencaoClose = document.getElementById('manutencaoClose');
 const manutencaoCountdown = document.getElementById('manutencaoCountdown');
-if (manutencaoClose && manutencaoCountdown) {
+if (manutencaoClose && manutencaoCountdown && new Date() < MANUTENCAO_FIM) {
   let seconds = 60;
   const timer = setInterval(() => {
     seconds--;

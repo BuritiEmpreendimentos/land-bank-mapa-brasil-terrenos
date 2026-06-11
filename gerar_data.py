@@ -19,7 +19,7 @@ ID_REGEX    = r'^(MAP\d+)'
 
 COLUNAS = {
     "nome":                "Nome",
-    "codigo":              "Código",
+    "codigo":              "Código Modelo",
     "regional":            "Regional",
     "cidade":              "Cidade",
     "uf":                  "UF",
