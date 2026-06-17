@@ -8,8 +8,8 @@ if (DATA.last_updated) {
   if (el) el.textContent = DATA.last_updated;
 }
 
-// Banner de manutenção — some automaticamente após 13/06/2026 14:30
-const MANUTENCAO_FIM = new Date('2026-06-13T14:30:00');
+// Banner de manutenção — some automaticamente após 17/06/2026 12:30
+const MANUTENCAO_FIM = new Date('2026-06-17T12:30:00');
 const manutencaoBanner = document.getElementById('manutencaoBanner');
 if (manutencaoBanner && new Date() >= MANUTENCAO_FIM) {
   manutencaoBanner.style.display = 'none';
