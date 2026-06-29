@@ -83,9 +83,19 @@ def ler_excel(path, sheet=None):
     linhas = list(ws.iter_rows(values_only=True))
     if not linhas:
         return [], []
-    cabecalho = [str(c).strip() if c is not None else "" for c in linhas[0]]
+
+    # Detecta automaticamente a linha de cabeçalho: primeira linha onde a
+    # primeira célula não-nula começa com 'ID' (case-insensitive).
+    header_idx = 0
+    for i, row in enumerate(linhas):
+        first = next((str(v).strip() for v in row if v is not None), "")
+        if first.upper() == "ID":
+            header_idx = i
+            break
+
+    cabecalho = [str(c).strip() if c is not None else "" for c in linhas[header_idx]]
     registros = []
-    for linha in linhas[1:]:
+    for linha in linhas[header_idx + 1:]:
         if all(v is None for v in linha):
             continue
         registro = {}
