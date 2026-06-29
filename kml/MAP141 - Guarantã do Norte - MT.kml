@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>Órion - 78 Há Guarantã do Norte/MT</name>
+	<visibility>0</visibility>
+	<gx:CascadingStyle kml:id="__managed_style_01E32CF7A33AB6B0B94F">
+		<styleUrl>https://earth.google.com/balloon_components/base/1.1.0.0/none_template.kml#main</styleUrl>
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2.4389</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>00ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_18536F26773AB6B0B94E">
+		<styleUrl>https://earth.google.com/balloon_components/base/1.1.0.0/none_template.kml#main</styleUrl>
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>1.62594</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>00ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0FDFAB4A2F3AB6B0B94E">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_18536F26773AB6B0B94E</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_01E32CF7A33AB6B0B94F</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Placemark id="09023D8B903AB6B05339">
+		<name>Órion - 78 Há Guarantã do Norte/MT</name>
+		<LookAt>
+			<longitude>-54.89656116084785</longitude>
+			<latitude>-9.973475761943648</latitude>
+			<altitude>290.8549686058487</altitude>
+			<heading>11.52112754060055</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>14064.27112715319</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0FDFAB4A2F3AB6B0B94E</styleUrl>
+		<Polygon>
+			<outerBoundaryIs>
+				<LinearRing>
+					<coordinates>
+						-54.90510837908337,-9.96818976975794,0 -54.88663950108216,-9.969406744926854,0 -54.88645233030084,-9.967063329767313,0 -54.89219034751407,-9.966531239150317,0 -54.89208170177796,-9.964553761035148,0 -54.89838894128746,-9.964056148940839,0 -54.89847558910252,-9.965946265462536,0 -54.90083723413483,-9.965839150845175,0 -54.9010590996977,-9.965805367543494,0 -54.90093401028664,-9.963891560655004,0 -54.90360681207675,-9.963832726141476,0 -54.90371697723461,-9.965725100926003,0 -54.90492897946472,-9.965636481865523,0 -54.90510837908337,-9.96818976975794,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+</Document>
+</kml>

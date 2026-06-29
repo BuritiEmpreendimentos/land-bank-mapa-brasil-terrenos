@@ -1,111 +1,79 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
-<Document>
-	<name>A DEFINIR I  - MONTES CLAROS</name>
-	<open>1</open>
-	<description><![CDATA[Powered by Neyton<br/>http://tbn2.blogspot.com/]]></description>
-	<atom:link rel="app" href="https://www.google.com/earth/about/versions/#earth-pro" title="Google Earth Pro 7.3.6.10441"></atom:link>
-	<Style id="_Perímetro">
-		<LineStyle id="l_PerímetroLineStyle">
-			<color>ff0000ff</color>
-			<width>3</width>
-		</LineStyle>
-		<PolyStyle id="p_PerímetroPolyStyle">
-			<color>7fcc0066</color>
-			<fill>0</fill>
-		</PolyStyle>
-	</Style>
-	<Style id="_Perímetro0">
-		<LineStyle id="l_PerímetroLineStyle">
-			<color>ff0000ff</color>
-			<width>3</width>
-		</LineStyle>
-		<PolyStyle id="p_PerímetroPolyStyle">
-			<color>7fcc0066</color>
-			<fill>0</fill>
-		</PolyStyle>
-	</Style>
-	<StyleMap id="_Perímetro1">
-		<Pair>
-			<key>normal</key>
-			<styleUrl>#_Perímetro0</styleUrl>
-		</Pair>
-		<Pair>
-			<key>highlight</key>
-			<styleUrl>#_Perímetro</styleUrl>
-		</Pair>
-	</StyleMap>
-	<StyleMap id="m_ylw-pushpin">
-		<Pair>
-			<key>normal</key>
-			<styleUrl>#s_ylw-pushpin</styleUrl>
-		</Pair>
-		<Pair>
-			<key>highlight</key>
-			<styleUrl>#s_ylw-pushpin_hl</styleUrl>
-		</Pair>
-	</StyleMap>
-	<Style id="s_ylw-pushpin">
-		<IconStyle>
-			<scale>1.1</scale>
-			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/grn-blank.png</href>
-			</Icon>
-			<hotSpot x="32" y="1" xunits="pixels" yunits="pixels"/>
-		</IconStyle>
-		<ListStyle>
-			<ItemIcon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/grn-blank-lv.png</href>
-			</ItemIcon>
-		</ListStyle>
-	</Style>
-	<Style id="s_ylw-pushpin_hl">
-		<IconStyle>
-			<scale>1.3</scale>
-			<Icon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/grn-blank.png</href>
-			</Icon>
-			<hotSpot x="32" y="1" xunits="pixels" yunits="pixels"/>
-		</IconStyle>
-		<ListStyle>
-			<ItemIcon>
-				<href>http://maps.google.com/mapfiles/kml/paddle/grn-blank-lv.png</href>
-			</ItemIcon>
-		</ListStyle>
-	</Style>
-	<Folder>
-		<name>_Perímetro</name>
-		<Placemark>
-			<name>764C8</name>
-			<styleUrl>#_Perímetro1</styleUrl>
-			<Polygon>
-				<tessellate>1</tessellate>
-				<outerBoundaryIs>
-					<LinearRing>
-						<coordinates>
-							-43.85752988072619,-16.77268086354835,0 -43.85733360214105,-16.7728436060277,0 -43.85708165837058,-16.77305520939736,0 -43.85698015206049,-16.77313712754241,0 -43.85672877624709,-16.77335058280521,0 -43.85660841746005,-16.77344727851179,0 -43.85650001901691,-16.77353904327149,0 -43.85640299132226,-16.77362077265134,0 -43.85630246181133,-16.77370100027291,0 -43.85620109445508,-16.77378576942238,0 -43.85616484846058,-16.77390244618005,0 -43.85492395227205,-16.77493981706582,0 -43.85478294297837,-16.77504822786445,0 -43.85470256453782,-16.77510637143071,0 -43.85462305381691,-16.77516562245037,0 -43.85457518192678,-16.77520310450004,0 -43.85452457188564,-16.77524003805909,0 -43.85442751427007,-16.77532585151371,0 -43.85423322413629,-16.77550517334947,0 -43.85412328207548,-16.77560380260508,0 -43.85403733849533,-16.77568374587333,0 -43.8534465661035,-16.77618618959396,0 -43.85334060040681,-16.77627948084043,0 -43.8530624258558,-16.77651626236239,0 -43.8527477094599,-16.77676850774681,0 -43.85247019613546,-16.77700633507006,0 -43.85230413411729,-16.77714720260371,0 -43.85202476614608,-16.77739887813533,0 -43.85123062464749,-16.77796944244063,0 -43.85116954142297,-16.77931466763737,0 -43.85111756100439,-16.77981817605,0 -43.8510360667441,-16.78021126135916,0 -43.85187560814029,-16.78020363405203,0 -43.85181085826832,-16.78046633807859,0 -43.85321042532521,-16.78045361585117,0 -43.85395110421232,-16.77990398474606,0 -43.85404765559444,-16.78003997510882,0 -43.85425682145266,-16.78026352827278,0 -43.85444232671314,-16.78041248243171,0 -43.85464554896755,-16.78053816502096,0 -43.85478558579968,-16.78061338606124,0 -43.85507405034296,-16.78080594417012,0 -43.85532019190156,-16.78106229672121,0 -43.85707495741854,-16.78325669693706,0 -43.85763045942256,-16.7835488475841,0 -43.85775227284559,-16.78345845216776,0 -43.85842789516205,-16.78381377319609,0 -43.86013405422211,-16.77993693967763,0 -43.85782480106967,-16.77986001606312,0 -43.85764218101249,-16.77982280433638,0 -43.8575198873946,-16.7797564988764,0 -43.85741600949933,-16.7796577818138,0 -43.855097242508,-16.77675802520904,0 -43.85576952086159,-16.77625915326096,0 -43.85591817063313,-16.77614884529989,0 -43.85627454584944,-16.77588835927529,0 -43.85651239924044,-16.77574357871128,0 -43.85676316565529,-16.77562067340735,0 -43.85722487553325,-16.77546181769131,0 -43.85745059717358,-16.77541218429466,0 -43.85762579399934,-16.77345839480978,0 -43.85769314113423,-16.77254596361462,0 -43.85752988072619,-16.77268086354835,0 
-						</coordinates>
-					</LinearRing>
-				</outerBoundaryIs>
-			</Polygon>
-		</Placemark>
-	</Folder>
-	<Placemark>
-		<name>MONTES CLAROS - CIDADE JARDIM II</name>
-		<Camera>
-			<longitude>-43.85582003353325</longitude>
-			<latitude>-16.78077216048021</latitude>
-			<altitude>3214.777203319586</altitude>
-			<heading>0.5224163218001908</heading>
-			<tilt>6.62024013291523</tilt>
-			<roll>1.511200173690492</roll>
-			<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
-		</Camera>
-		<styleUrl>#m_ylw-pushpin</styleUrl>
-		<Point>
-			<gx:drawOrder>1</gx:drawOrder>
-			<coordinates>-43.85471184500085,-16.7789604759178,0</coordinates>
-		</Point>
-	</Placemark>
-</Document>
-</kml>
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document id="root_doc">
+<Folder><name>Cameras</name>
+</Folder>
+<Folder><name>Paths</name>
+</Folder>
+<Folder><name>Model</name>
+</Folder>
+<Folder><name>Hatch__731CA50_</name>
+  <Placemark>
+	<name>Hatch [731CA50]</name>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#Hatch__731CA50_">
+		<SimpleData name="tessellate">-1</SimpleData>
+		<SimpleData name="extrude">0</SimpleData>
+		<SimpleData name="visibility">-1</SimpleData>
+	</SchemaData></ExtendedData>
+      <MultiGeometry><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8338391910674,-16.6860558307742,0.2 -43.8335184284105,-16.6866015473863,0.2 -43.8343934743036,-16.6866064764608,0.2 -43.8338391910674,-16.6860558307742,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8302004084086,-16.6937354384645,0.2 -43.8293279440348,-16.6937305043965,0.2 -43.830070677326,-16.6939559939929,0.2 -43.8302004084086,-16.6937354384645,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8343934743056,-16.6866064764628,0.2 -43.8293279440348,-16.6937305043965,0.2 -43.8302004084066,-16.6937354384625,0.2 -43.8343934743056,-16.6866064764628,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8343934743056,-16.6866064764628,0.2 -43.8335184284105,-16.6866015473863,0.2 -43.8293279440338,-16.6937305043955,0.2 -43.8343934743056,-16.6866064764628,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon></MultiGeometry>
+  </Placemark>
+</Folder>
+<Folder><name>Hatch__731C9DB_</name>
+  <Placemark>
+	<name>Hatch [731C9DB]</name>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#Hatch__731C9DB_">
+		<SimpleData name="tessellate">-1</SimpleData>
+		<SimpleData name="extrude">0</SimpleData>
+		<SimpleData name="visibility">-1</SimpleData>
+	</SchemaData></ExtendedData>
+      <MultiGeometry><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8342542772685,-16.6868436953443,0.2 -43.8339084011429,-16.6874317244041,0.2 -43.8348419674781,-16.6874369814602,0.2 -43.8342542772685,-16.6868436953443,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8348419674801,-16.6874369814622,0.2 -43.8330522893507,-16.6888871933112,0.2 -43.8359168867561,-16.688903324036,0.2 -43.8348419674801,-16.6874369814622,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8348419674801,-16.6874369814622,0.2 -43.8339084011429,-16.6874317244041,0.2 -43.8330522893497,-16.6888871933102,0.2 -43.8348419674801,-16.6874369814622,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8359168867581,-16.688903324038,0.2 -43.8329629073236,-16.6890391494072,0.2 -43.835834775546,-16.6890553223946,0.2 -43.8359168867581,-16.688903324038,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8359168867581,-16.688903324038,0.2 -43.8330522893507,-16.6888871933112,0.2 -43.8329629073226,-16.6890391494062,0.2 -43.8359168867581,-16.688903324038,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.835834775548,-16.6890553223966,0.2 -43.8328108152605,-16.6892977165421,0.2 -43.8356975135695,-16.6893139752862,0.2 -43.835834775548,-16.6890553223966,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.835834775548,-16.6890553223966,0.2 -43.8329629073236,-16.6890391494072,0.2 -43.8328108152595,-16.6892977165411,0.2 -43.835834775548,-16.6890553223966,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8356975135715,-16.6893139752882,0.2 -43.8324594594026,-16.6898950427374,0.2 -43.8353790085175,-16.6899114917529,0.2 -43.8356975135715,-16.6893139752882,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8356975135715,-16.6893139752882,0.2 -43.8328108152605,-16.6892977165421,0.2 -43.8324594594016,-16.6898950427364,0.2 -43.8356975135715,-16.6893139752882,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8353790085195,-16.6899114917549,0.2 -43.8322840402677,-16.690193264138,0.2 -43.835218970191,-16.6902098024506,0.2 -43.8353790085195,-16.6899114917549,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8353790085195,-16.6899114917549,0.2 -43.8324594594026,-16.6898950427374,0.2 -43.8322840402667,-16.690193264137,0.2 -43.8353790085195,-16.6899114917549,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.835218970193,-16.6902098024526,0.2 -43.8320179457671,-16.6906456360449,0.2 -43.834976391362,-16.6906623109039,0.2 -43.835218970193,-16.6902098024526,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.835218970193,-16.6902098024526,0.2 -43.8322840402677,-16.690193264138,0.2 -43.8320179457661,-16.6906456360439,0.2 -43.835218970193,-16.6902098024526,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.834976391364,-16.6906623109059,0.2 -43.8318966907709,-16.6908517737872,0.2 -43.8348664998351,-16.6908685145363,0.2 -43.834976391364,-16.6906623109059,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.834976391364,-16.6906623109059,0.2 -43.8320179457671,-16.6906456360449,0.2 -43.83189669077,-16.6908517737862,0.2 -43.834976391364,-16.6906623109059,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8348664998371,-16.6908685145383,0.2 -43.8318046961848,-16.6910081674395,0.2 -43.8347815827596,-16.6910249494961,0.2 -43.8348664998371,-16.6908685145383,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8348664998371,-16.6908685145383,0.2 -43.8318966907709,-16.6908517737872,0.2 -43.8318046961838,-16.6910081674385,0.2 -43.8348664998371,-16.6908685145383,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8347815827616,-16.6910249494981,0.2 -43.8317512564843,-16.6910990164439,0.2 -43.8347283756301,-16.6911158006595,0.2 -43.8347815827616,-16.6910249494981,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8347815827616,-16.6910249494981,0.2 -43.8318046961848,-16.6910081674395,0.2 -43.8317512564833,-16.6910990164429,0.2 -43.8347815827616,-16.6910249494981,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8347283756321,-16.6911158006615,0.2 -43.831698256543,-16.6911891177393,0.2 -43.8346788771094,-16.6912059225134,0.2 -43.8347283756321,-16.6911158006615,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8347283756321,-16.6911158006615,0.2 -43.8317512564843,-16.6910990164439,0.2 -43.831698256542,-16.6911891177383,0.2 -43.8347283756321,-16.6911158006615,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8346788771114,-16.6912059225154,0.2 -43.8316179351978,-16.6913256659399,0.2 -43.8346115132145,-16.6913425449587,0.2 -43.8346788771114,-16.6912059225154,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8346788771114,-16.6912059225154,0.2 -43.831698256543,-16.6911891177393,0.2 -43.8316179351968,-16.6913256659389,0.2 -43.8346788771114,-16.6912059225154,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8346115132165,-16.6913425449607,0.2 -43.8315400406543,-16.6914580882891,0.2 -43.8345407702762,-16.691475008828,0.2 -43.8346115132165,-16.6913425449607,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8346115132165,-16.6913425449607,0.2 -43.8316179351978,-16.6913256659399,0.2 -43.8315400406533,-16.6914580882881,0.2 -43.8346115132165,-16.6913425449607,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8345407702782,-16.69147500883,0.2 -43.831464005934,-16.6915873486804,0.2 -43.8344700839799,-16.6916043005599,0.2 -43.8345407702782,-16.69147500883,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8345407702782,-16.69147500883,0.2 -43.8315400406543,-16.6914580882891,0.2 -43.831464005933,-16.6915873486794,0.2 -43.8345407702782,-16.69147500883,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8344700839819,-16.6916043005619,0.2 -43.8314240835567,-16.6916552173529,0.2 -43.8344352462354,-16.6916721985107,0.2 -43.8344700839819,-16.6916043005619,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8344700839819,-16.6916043005619,0.2 -43.831464005934,-16.6915873486804,0.2 -43.8314240835557,-16.6916552173519,0.2 -43.8344700839819,-16.6916043005619,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8344352462374,-16.6916721985127,0.2 -43.8314037885222,-16.6916897192094,0.2 -43.8344165251135,-16.6917067095582,0.2 -43.8344352462374,-16.6916721985127,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8344352462374,-16.6916721985127,0.2 -43.8314240835567,-16.6916552173529,0.2 -43.8314037885212,-16.6916897192084,0.2 -43.8344352462374,-16.6916721985127,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8344165251155,-16.6917067095602,0.2 -43.8312666458203,-16.6919228634107,0.2 -43.8342906762483,-16.6919399195836,0.2 -43.8344165251155,-16.6917067095602,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8344165251155,-16.6917067095602,0.2 -43.8314037885222,-16.6916897192094,0.2 -43.8312666458193,-16.6919228634097,0.2 -43.8344165251155,-16.6917067095602,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8342906762503,-16.6919399195856,0.2 -43.8311334664188,-16.6921492692803,0.2 -43.8341730546646,-16.6921664152505,0.2 -43.8342906762503,-16.6919399195856,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8342906762503,-16.6919399195856,0.2 -43.8312666458203,-16.6919228634107,0.2 -43.8311334664178,-16.6921492692793,0.2 -43.8342906762503,-16.6919399195856,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8341730546666,-16.6921664152525,0.2 -43.8310492971655,-16.6922923572285,0.2 -43.8340963570836,-16.6923095466603,0.2 -43.8341730546666,-16.6921664152525,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8341730546666,-16.6921664152525,0.2 -43.8311334664188,-16.6921492692803,0.2 -43.8310492971645,-16.6922923572275,0.2 -43.8341730546666,-16.6921664152525,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8340963570856,-16.6923095466623,0.2 -43.8309720217915,-16.6924237253305,0.2 -43.8340261262034,-16.6924409557111,0.2 -43.8340963570856,-16.6923095466623,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8340963570856,-16.6923095466623,0.2 -43.8310492971655,-16.6922923572285,0.2 -43.8309720217905,-16.6924237253295,0.2 -43.8340963570856,-16.6923095466623,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8340261262054,-16.6924409557131,0.2 -43.8307915478886,-16.6927305300145,0.2 -43.8338659468238,-16.6927478777037,0.2 -43.8340261262054,-16.6924409557131,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8340261262054,-16.6924409557131,0.2 -43.8309720217915,-16.6924237253305,0.2 -43.8307915478876,-16.6927305300135,0.2 -43.8340261262054,-16.6924409557131,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8338659468258,-16.6927478777057,0.2 -43.830602510133,-16.693051891894,0.2 -43.8336917900758,-16.6930693265594,0.2 -43.8338659468258,-16.6927478777057,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8338659468258,-16.6927478777057,0.2 -43.8307915478886,-16.6927305300145,0.2 -43.830602510132,-16.693051891893,0.2 -43.8338659468258,-16.6927478777057,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8336917900778,-16.6930693265614,0.2 -43.8304849825163,-16.693251686734,0.2 -43.833581474774,-16.6932691639928,0.2 -43.8336917900778,-16.6930693265614,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8336917900778,-16.6930693265614,0.2 -43.830602510133,-16.693051891894,0.2 -43.8304849825153,-16.693251686733,0.2 -43.8336917900778,-16.6930693265614,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.833581474776,-16.6932691639948,0.2 -43.8303123655215,-16.6935451315899,0.2 -43.8334243292247,-16.6935626989258,0.2 -43.833581474776,-16.6932691639948,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.833581474776,-16.6932691639948,0.2 -43.8304849825163,-16.693251686734,0.2 -43.8303123655205,-16.6935451315889,0.2 -43.833581474776,-16.6932691639948,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8334243292267,-16.6935626989278,0.2 -43.8302758337072,-16.693607234677,0.2 -43.8333897508912,-16.6936248136334,0.2 -43.8334243292267,-16.6935626989278,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8334243292267,-16.6935626989278,0.2 -43.8303123655215,-16.6935451315899,0.2 -43.8302758337062,-16.693607234676,0.2 -43.8334243292267,-16.6935626989278,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8333897508932,-16.6936248136354,0.2 -43.8302740080623,-16.6936103382221,0.2 -43.8333901250688,-16.6936279296111,0.2 -43.8333897508932,-16.6936248136354,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8333897508932,-16.6936248136354,0.2 -43.8302758337072,-16.693607234677,0.2 -43.8302740080613,-16.6936103382211,0.2 -43.8333897508932,-16.6936248136354,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8333901250708,-16.6936279296131,0.2 -43.8302357090926,-16.6936754453688,0.2 -43.8333565982496,-16.6936930643004,0.2 -43.8333901250708,-16.6936279296131,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8333901250708,-16.6936279296131,0.2 -43.8302740080623,-16.6936103382221,0.2 -43.8302357090916,-16.6936754453678,0.2 -43.8333901250708,-16.6936279296131,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8333565982516,-16.6936930643024,0.2 -43.830070677327,-16.6939559939939,0.2 -43.8332059797755,-16.6939736969502,0.2 -43.8333565982516,-16.6936930643024,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8333565982516,-16.6936930643024,0.2 -43.8302357090926,-16.6936754453688,0.2 -43.830070677326,-16.6939559939929,0.2 -43.8333565982516,-16.6936930643024,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8332059797775,-16.6939736969522,0.2 -43.8301396178156,-16.6939769237744,0.2 -43.8331949889696,-16.693994175003,0.2 -43.8332059797775,-16.6939736969522,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8332059797775,-16.6939736969522,0.2 -43.830070677327,-16.6939559939939,0.2 -43.8301396178147,-16.6939769237733,0.2 -43.8332059797775,-16.6939736969522,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8331949889716,-16.693994175005,0.2 -43.8305584863615,-16.6941040883301,0.2 -43.833128333179,-16.6941185961012,0.2 -43.8331949889716,-16.693994175005,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8331949889716,-16.693994175005,0.2 -43.8301396178156,-16.6939769237744,0.2 -43.8305584863605,-16.6941040883291,0.2 -43.8331949889716,-16.693994175005,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.833128333181,-16.6941185961032,0.2 -43.8317422688081,-16.6944645891504,0.2 -43.8329393556716,-16.6944713444134,0.2 -43.833128333181,-16.6941185961032,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.833128333181,-16.6941185961032,0.2 -43.8305584863615,-16.6941040883301,0.2 -43.8317422688071,-16.6944645891494,0.2 -43.833128333181,-16.6941185961032,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8329393556736,-16.6944713444154,0.2 -43.8326361642419,-16.6947368045176,0.2 -43.8327967588995,-16.6947377104874,0.2 -43.8329393556736,-16.6944713444154,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8329393556736,-16.6944713444154,0.2 -43.8317422688081,-16.6944645891504,0.2 -43.8326361642409,-16.6947368045166,0.2 -43.8329393556736,-16.6944713444154,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8327967589015,-16.6947377104894,0.2 -43.8326412766486,-16.6947383613708,0.2 -43.8327956178538,-16.6947392320612,0.2 -43.8327967589015,-16.6947377104894,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8327967589015,-16.6947377104894,0.2 -43.8326361642419,-16.6947368045176,0.2 -43.8326412766476,-16.6947383613698,0.2 -43.8327967589015,-16.6947377104894,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8327831387534,-16.6947558728277,0.2 -43.8326992985451,-16.6947553998643,0.2 -43.832771212683,-16.694771776121,0.2 -43.8327831387534,-16.6947558728277,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8327956178558,-16.6947392320632,0.2 -43.8326992985451,-16.6947553998643,0.2 -43.8327831387514,-16.6947558728257,0.2 -43.8327956178558,-16.6947392320632,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8327956178558,-16.6947392320632,0.2 -43.8326412766486,-16.6947383613708,0.2 -43.8326992985441,-16.6947553998633,0.2 -43.8327956178558,-16.6947392320632,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon></MultiGeometry>
+  </Placemark>
+</Folder>
+<Folder><name>Hatch__731CA52_</name>
+  <Placemark>
+	<name>Hatch [731CA52]</name>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#Hatch__731CA52_">
+		<SimpleData name="tessellate">-1</SimpleData>
+		<SimpleData name="extrude">0</SimpleData>
+		<SimpleData name="visibility">-1</SimpleData>
+	</SchemaData></ExtendedData>
+      <MultiGeometry><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.834393684295,-16.6866066861511,0.2 -43.8342542772675,-16.6868436953433,0.2 -43.8346361072095,-16.6868458452898,0.2 -43.834393684295,-16.6866066861511,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8346361072115,-16.6868458452918,0.2 -43.8344508993895,-16.6870421902449,0.2 -43.8348373375458,-16.68704436579,0.2 -43.8346361072115,-16.6868458452918,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8346361072115,-16.6868458452918,0.2 -43.8342542772675,-16.6868436953433,0.2 -43.8344508993885,-16.6870421902439,0.2 -43.8346361072115,-16.6868458452918,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8348373375478,-16.687044365792,0.2 -43.8347471403785,-16.6873412517765,0.2 -43.8350717341316,-16.6873430787665,0.2 -43.8348373375478,-16.687044365792,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8348373375478,-16.687044365792,0.2 -43.8344508993895,-16.6870421902449,0.2 -43.8347471403775,-16.6873412517755,0.2 -43.8348373375478,-16.687044365792,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8350717341336,-16.6873430787685,0.2 -43.8348419674791,-16.6874369814612,0.2 -43.835140976972,-16.6874386643389,0.2 -43.8350717341336,-16.6873430787685,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8350717341336,-16.6873430787685,0.2 -43.8347471403785,-16.6873412517765,0.2 -43.8348419674781,-16.6874369814602,0.2 -43.8350717341336,-16.6873430787685,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.835140976974,-16.6874386643409,0.2 -43.8357394433944,-16.6886612679199,0.2 -43.8360278214649,-16.6886628898239,0.2 -43.835140976974,-16.6874386643409,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.835140976974,-16.6874386643409,0.2 -43.8348419674791,-16.6874369814612,0.2 -43.8357394433934,-16.6886612679189,0.2 -43.835140976974,-16.6874386643409,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8360410716199,-16.6886734414064,0.2 -43.8357471555768,-16.6886717883675,0.2 -43.8359175892783,-16.6889042823674,0.2 -43.8360410716199,-16.6886734414064,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8360278214669,-16.6886628898259,0.2 -43.8357471555768,-16.6886717883675,0.2 -43.8360410716179,-16.6886734414044,0.2 -43.8360278214669,-16.6886628898259,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon><Polygon><outerBoundaryIs><LinearRing><coordinates>-43.8360278214669,-16.6886628898259,0.2 -43.8357394433944,-16.6886612679199,0.2 -43.8357471555758,-16.6886717883665,0.2 -43.8360278214669,-16.6886628898259,0.2</coordinates></LinearRing></outerBoundaryIs></Polygon></MultiGeometry>
+  </Placemark>
+</Folder>
+<Schema name="Hatch__731CA50_" id="Hatch__731CA50_">
+	<SimpleField name="timestamp" type="string"></SimpleField>
+	<SimpleField name="begin" type="string"></SimpleField>
+	<SimpleField name="end" type="string"></SimpleField>
+	<SimpleField name="altitudeMode" type="string"></SimpleField>
+	<SimpleField name="tessellate" type="int"></SimpleField>
+	<SimpleField name="extrude" type="int"></SimpleField>
+	<SimpleField name="visibility" type="int"></SimpleField>
+	<SimpleField name="drawOrder" type="int"></SimpleField>
+	<SimpleField name="icon" type="string"></SimpleField>
+</Schema>
+<Schema name="Hatch__731C9DB_" id="Hatch__731C9DB_">
+	<SimpleField name="timestamp" type="string"></SimpleField>
+	<SimpleField name="begin" type="string"></SimpleField>
+	<SimpleField name="end" type="string"></SimpleField>
+	<SimpleField name="altitudeMode" type="string"></SimpleField>
+	<SimpleField name="tessellate" type="int"></SimpleField>
+	<SimpleField name="extrude" type="int"></SimpleField>
+	<SimpleField name="visibility" type="int"></SimpleField>
+	<SimpleField name="drawOrder" type="int"></SimpleField>
+	<SimpleField name="icon" type="string"></SimpleField>
+</Schema>
+<Schema name="Hatch__731CA52_" id="Hatch__731CA52_">
+	<SimpleField name="timestamp" type="string"></SimpleField>
+	<SimpleField name="begin" type="string"></SimpleField>
+	<SimpleField name="end" type="string"></SimpleField>
+	<SimpleField name="altitudeMode" type="string"></SimpleField>
+	<SimpleField name="tessellate" type="int"></SimpleField>
+	<SimpleField name="extrude" type="int"></SimpleField>
+	<SimpleField name="visibility" type="int"></SimpleField>
+	<SimpleField name="drawOrder" type="int"></SimpleField>
+	<SimpleField name="icon" type="string"></SimpleField>
+</Schema>
+</Document></kml>
