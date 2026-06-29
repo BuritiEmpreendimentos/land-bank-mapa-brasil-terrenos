@@ -343,13 +343,13 @@ body {
    6. FILTROS & CHIPS
    ============================================================ */
 .filters {
-  padding: 14px 20px;
+  padding: 8px 14px;
   border-bottom: 1px solid var(--sb-border3);
 }
 
 .filters-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   border-bottom: 1px solid var(--sb-border3);
 }
 
@@ -363,11 +363,11 @@ body {
 }
 
 .filters h3 {
-  font-size: 10px;
+  font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
+  letter-spacing: 1px;
   color: var(--sb-text2);
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   font-weight: 600;
 }
 
@@ -425,13 +425,13 @@ body {
 
 .filter-select-btn {
   width: 100%;
-  padding: 7px 12px;
-  border-radius: 8px;
+  padding: 5px 8px;
+  border-radius: 6px;
   border: 1px solid var(--sb-border2);
   background: transparent;
   color: var(--sb-text2);
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
   text-align: left;
@@ -1460,7 +1460,7 @@ body {
   .stat-card .val { font-size: 17px; }
   .stat-card .label { font-size: 9px; }
 
-  .filters    { padding: 12px 16px; }
+  .filters    { padding: 7px 12px; }
   .search-box { padding: 10px 16px; }
   .counter    { padding: 5px 16px 7px; }
   .list-container { padding: 8px 10px 20px; }

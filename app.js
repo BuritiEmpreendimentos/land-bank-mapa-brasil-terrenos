@@ -8,8 +8,8 @@ if (DATA.last_updated) {
   if (el) el.textContent = DATA.last_updated;
 }
 
-// Banner de manutenção — some automaticamente após 17/06/2026 12:30
-const MANUTENCAO_FIM = new Date('2026-06-17T12:30:00');
+// Banner de manutenção — some automaticamente após 29/06/2026 11:00
+const MANUTENCAO_FIM = new Date('2026-06-29T10:30:00');
 const manutencaoBanner = document.getElementById('manutencaoBanner');
 if (manutencaoBanner && new Date() >= MANUTENCAO_FIM) {
   manutencaoBanner.style.display = 'none';
@@ -18,7 +18,7 @@ if (manutencaoBanner && new Date() >= MANUTENCAO_FIM) {
 const manutencaoClose = document.getElementById('manutencaoClose');
 const manutencaoCountdown = document.getElementById('manutencaoCountdown');
 if (manutencaoClose && manutencaoCountdown && new Date() < MANUTENCAO_FIM) {
-  let seconds = 60;
+  let seconds = 30;
   const timer = setInterval(() => {
     seconds--;
     manutencaoCountdown.textContent = seconds;
@@ -35,6 +35,7 @@ if (manutencaoClose && manutencaoCountdown && new Date() < MANUTENCAO_FIM) {
 let activeRegionals       = new Set();
 let activeYears           = new Set();
 let activeStatus          = new Set();
+let activeTipos           = new Set();
 let activeCidades         = new Set();
 let activeEmpreendimentos = new Set();
 let polygonLayers         = [];
@@ -79,7 +80,7 @@ function getCentroid(item) {
 // ===== STATS =====
 function renderStats(filteredItems) {
   const hasFilter = activeRegionals.size > 0 || activeYears.size > 0
-    || activeStatus.size > 0 || activeCidades.size > 0
+    || activeStatus.size > 0 || activeTipos.size > 0 || activeCidades.size > 0
     || activeEmpreendimentos.size > 0 || searchTerm;
 
   const somenteAtivo = activeStatus.has('Ativo')
@@ -644,14 +645,21 @@ const allYears = [...new Set(
     .filter(y => y !== 'null' && y !== 'None' && y.trim() !== '')
 )].sort();
 
+const allTipos = [...new Set(
+  items.filter(i => isLinked(i) && i.e.tipo)
+    .map(i => String(i.e.tipo))
+    .filter(t => t !== 'null' && t !== 'None' && t.trim() !== '')
+)].sort();
+
 const localizacaoSelect = buildTreeSelect('filterLocalizacao', updateMap);
 const yearSelect        = buildMultiSelect('filterYear', allYears, activeYears, null, updateMap);
 const statusSelect      = buildSingleSelect('filterStatus', ['Ativo', 'Inativo'], activeStatus, updateMap);
+const tipoSelect        = buildMultiSelect('filterTipo', allTipos, activeTipos, null, updateMap);
 
 // ===== FILTER NOTICE =====
 function updateFilterNotice() {
   const active = activeRegionals.size > 0 || activeYears.size > 0
-    || activeStatus.size > 0 || activeCidades.size > 0
+    || activeStatus.size > 0 || activeTipos.size > 0 || activeCidades.size > 0
     || activeEmpreendimentos.size > 0 || searchTerm;
   document.getElementById('filterNotice').style.display = active ? 'flex' : 'none';
 }
@@ -660,6 +668,7 @@ document.getElementById('clearFiltersBtn').addEventListener('click', () => {
   activeRegionals.clear();
   activeYears.clear();
   activeStatus.clear();
+  activeTipos.clear();
   activeCidades.clear();
   activeEmpreendimentos.clear();
   searchTerm = '';
@@ -667,6 +676,7 @@ document.getElementById('clearFiltersBtn').addEventListener('click', () => {
   localizacaoSelect._sync();
   yearSelect._sync();
   statusSelect._sync();
+  tipoSelect._sync();
   updateMap();
 });
 
@@ -767,6 +777,11 @@ function passesFilter(item) {
     if (!isLinked(item)) return false;
     const s = item.e.on_off === 1 ? 'Ativo' : 'Inativo';
     if (!activeStatus.has(s)) return false;
+  }
+
+  if (activeTipos.size > 0) {
+    const t = isLinked(item) ? String(item.e.tipo ?? '') : '';
+    if (!t || !activeTipos.has(t)) return false;
   }
 
   if (searchTerm) {
