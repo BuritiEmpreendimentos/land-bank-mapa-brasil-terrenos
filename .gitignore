@@ -1,6 +1,48 @@
-# Arquivos temporários do Office
+# ─── Office ───────────────────────────────────────────
 ~$*
+*.tmp
 
-# Python
+# ─── Python ───────────────────────────────────────────
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.env
+.venv/
+venv/
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ─── Arquivo gerado (Pipeline de dados) ───────────────
+# data.js é gerado por gerar_data.py e NÃO deve ser versionado
+# (descomente apenas quando houver CI/CD configurado para gerá-lo)
+# data.js
+
+# ─── IDEs e editores ──────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ─── Logs ─────────────────────────────────────────────
+*.log
+logs/
+
+# ─── Backups manuais (usar Git tags/branches) ─────────
+backup arquivos/
+backups/
+
+# ─── Node (se futuramente usar bundler) ───────────────
+node_modules/
+.npm

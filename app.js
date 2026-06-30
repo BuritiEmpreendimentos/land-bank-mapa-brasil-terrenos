@@ -8,39 +8,18 @@ if (DATA.last_updated) {
   if (el) el.textContent = DATA.last_updated;
 }
 
-// Banner de manutenção — some automaticamente após 29/06/2026 11:00
-const MANUTENCAO_FIM = new Date('2026-06-29T10:30:00');
-const manutencaoBanner = document.getElementById('manutencaoBanner');
-if (manutencaoBanner && new Date() >= MANUTENCAO_FIM) {
-  manutencaoBanner.style.display = 'none';
-}
 
-const manutencaoClose = document.getElementById('manutencaoClose');
-const manutencaoCountdown = document.getElementById('manutencaoCountdown');
-if (manutencaoClose && manutencaoCountdown && new Date() < MANUTENCAO_FIM) {
-  let seconds = 30;
-  const timer = setInterval(() => {
-    seconds--;
-    manutencaoCountdown.textContent = seconds;
-    if (seconds <= 0) {
-      clearInterval(timer);
-      manutencaoClose.disabled = false;
-    }
-  }, 1000);
-  manutencaoClose.addEventListener('click', () => {
-    document.getElementById('manutencaoBanner').classList.add('hidden');
-  });
-}
-
-let activeRegionals       = new Set();
-let activeYears           = new Set();
-let activeStatus          = new Set();
-let activeTipos           = new Set();
-let activeCidades         = new Set();
-let activeEmpreendimentos = new Set();
-let polygonLayers         = [];
-let searchTerm            = '';
-let somenteVinculados     = false;
+const state = {
+  activeRegionals:       new Set(),
+  activeYears:           new Set(),
+  activeStatus:          new Set(),
+  activeTipos:           new Set(),
+  activeCidades:         new Set(),
+  activeEmpreendimentos: new Set(),
+  polygonLayers:         [],
+  searchTerm:            '',
+  somenteVinculados:     false,
+};
 
 // ===== HELPERS =====
 const fmtNum = (n) => (n != null && !isNaN(n)) ? n.toLocaleString('pt-BR') : '-';
@@ -79,17 +58,17 @@ function getCentroid(item) {
 
 // ===== STATS =====
 function renderStats(filteredItems) {
-  const hasFilter = activeRegionals.size > 0 || activeYears.size > 0
-    || activeStatus.size > 0 || activeTipos.size > 0 || activeCidades.size > 0
-    || activeEmpreendimentos.size > 0 || searchTerm;
+  const hasFilter = state.activeRegionals.size > 0 || state.activeYears.size > 0
+    || state.activeStatus.size > 0 || state.activeTipos.size > 0 || state.activeCidades.size > 0
+    || state.activeEmpreendimentos.size > 0 || state.searchTerm;
 
-  const somenteAtivo = activeStatus.has('Ativo')
-    && activeRegionals.size === 0 && activeCidades.size === 0
-    && activeEmpreendimentos.size === 0 && activeYears.size === 0 && !searchTerm;
+  const somenteAtivo = state.activeStatus.has('Ativo')
+    && state.activeRegionals.size === 0 && state.activeCidades.size === 0
+    && state.activeEmpreendimentos.size === 0 && state.activeYears.size === 0 && !state.searchTerm;
 
-  const somenteInativo = activeStatus.has('Inativo')
-    && activeRegionals.size === 0 && activeCidades.size === 0
-    && activeEmpreendimentos.size === 0 && activeYears.size === 0 && !searchTerm;
+  const somenteInativo = state.activeStatus.has('Inativo')
+    && state.activeRegionals.size === 0 && state.activeCidades.size === 0
+    && state.activeEmpreendimentos.size === 0 && state.activeYears.size === 0 && !state.searchTerm;
 
   const count = !hasFilter     ? stats.total_planilha
               : somenteAtivo   ? stats.total_ativo
@@ -418,17 +397,17 @@ function buildTreeSelect(containerId, onChangeFn) {
 
   function getLabel() {
     const parts = [];
-    if (activeRegionals.size > 0)
-      parts.push(`${activeRegionals.size} regional${activeRegionals.size > 1 ? 'is' : ''}`);
-    if (activeCidades.size > 0)
-      parts.push(`${activeCidades.size} cidade${activeCidades.size > 1 ? 's' : ''}`);
-    if (activeEmpreendimentos.size > 0)
-      parts.push(`${activeEmpreendimentos.size} empreend.`);
+    if (state.activeRegionals.size > 0)
+      parts.push(`${state.activeRegionals.size} regional${state.activeRegionals.size > 1 ? 'is' : ''}`);
+    if (state.activeCidades.size > 0)
+      parts.push(`${state.activeCidades.size} cidade${state.activeCidades.size > 1 ? 's' : ''}`);
+    if (state.activeEmpreendimentos.size > 0)
+      parts.push(`${state.activeEmpreendimentos.size} empreend.`);
     return parts.length > 0 ? parts.join(', ') : 'Todos';
   }
 
   function updateBtn() {
-    const has = activeRegionals.size > 0 || activeCidades.size > 0 || activeEmpreendimentos.size > 0;
+    const has = state.activeRegionals.size > 0 || state.activeCidades.size > 0 || state.activeEmpreendimentos.size > 0;
     btn.innerHTML = `${getLabel()} <span class="fsd-arrow">▾</span>`;
     btn.classList.toggle('has-filter', has);
   }
@@ -448,7 +427,7 @@ function buildTreeSelect(containerId, onChangeFn) {
 
       const chk = document.createElement('input');
       chk.type = 'checkbox';
-      chk.checked = activeEmpreendimentos.has(emp);
+      chk.checked = state.activeEmpreendimentos.has(emp);
 
       const lbl = document.createElement('span');
       lbl.textContent = emp;
@@ -459,7 +438,7 @@ function buildTreeSelect(containerId, onChangeFn) {
       row.appendChild(lbl);
 
       chk.addEventListener('change', () => {
-        chk.checked ? activeEmpreendimentos.add(emp) : activeEmpreendimentos.delete(emp);
+        chk.checked ? state.activeEmpreendimentos.add(emp) : state.activeEmpreendimentos.delete(emp);
         updateBtn();
         onChangeFn();
       });
@@ -487,7 +466,7 @@ function buildTreeSelect(containerId, onChangeFn) {
 
       const chk = document.createElement('input');
       chk.type = 'checkbox';
-      chk.checked = activeCidades.has(cidade);
+      chk.checked = state.activeCidades.has(cidade);
 
       const lbl = document.createElement('span');
       lbl.textContent = cidade;
@@ -513,12 +492,12 @@ function buildTreeSelect(containerId, onChangeFn) {
 
       chk.addEventListener('change', () => {
         if (chk.checked) {
-          activeCidades.add(cidade);
+          state.activeCidades.add(cidade);
         } else {
-          activeCidades.delete(cidade);
+          state.activeCidades.delete(cidade);
           items
             .filter(i => isLinked(i) && i.e.cidade === cidade)
-            .forEach(i => activeEmpreendimentos.delete(i.e.empreendimento || i.e.nome));
+            .forEach(i => state.activeEmpreendimentos.delete(i.e.empreendimento || i.e.nome));
         }
         if (expanded) buildEmpreendimentos(regional, cidade, empContainer);
         updateBtn();
@@ -537,13 +516,13 @@ function buildTreeSelect(containerId, onChangeFn) {
     allRow.className = 'tree-all';
     const allChk = document.createElement('input');
     allChk.type = 'checkbox';
-    allChk.checked = activeRegionals.size === 0 && activeCidades.size === 0 && activeEmpreendimentos.size === 0;
+    allChk.checked = state.activeRegionals.size === 0 && state.activeCidades.size === 0 && state.activeEmpreendimentos.size === 0;
     allRow.appendChild(allChk);
     allRow.appendChild(document.createTextNode('Todos'));
     allChk.addEventListener('change', () => {
-      activeRegionals.clear();
-      activeCidades.clear();
-      activeEmpreendimentos.clear();
+      state.activeRegionals.clear();
+      state.activeCidades.clear();
+      state.activeEmpreendimentos.clear();
       buildTree();
       updateBtn();
       onChangeFn();
@@ -566,7 +545,7 @@ function buildTreeSelect(containerId, onChangeFn) {
 
       const chk = document.createElement('input');
       chk.type = 'checkbox';
-      chk.checked = activeRegionals.has(regional);
+      chk.checked = state.activeRegionals.has(regional);
 
       const dot = document.createElement('span');
       dot.className = 'dot';
@@ -597,14 +576,14 @@ function buildTreeSelect(containerId, onChangeFn) {
 
       chk.addEventListener('change', () => {
         if (chk.checked) {
-          activeRegionals.add(regional);
+          state.activeRegionals.add(regional);
         } else {
-          activeRegionals.delete(regional);
+          state.activeRegionals.delete(regional);
           items
             .filter(i => isLinked(i) && i.e.regional === regional)
             .forEach(i => {
-              activeCidades.delete(i.e.cidade);
-              activeEmpreendimentos.delete(i.e.empreendimento || i.e.nome);
+              state.activeCidades.delete(i.e.cidade);
+              state.activeEmpreendimentos.delete(i.e.empreendimento || i.e.nome);
             });
         }
         if (expanded) buildCidades(regional, cidadeContainer);
@@ -652,26 +631,26 @@ const allTipos = [...new Set(
 )].sort();
 
 const localizacaoSelect = buildTreeSelect('filterLocalizacao', updateMap);
-const yearSelect        = buildMultiSelect('filterYear', allYears, activeYears, null, updateMap);
-const statusSelect      = buildSingleSelect('filterStatus', ['Ativo', 'Inativo'], activeStatus, updateMap);
-const tipoSelect        = buildMultiSelect('filterTipo', allTipos, activeTipos, null, updateMap);
+const yearSelect        = buildMultiSelect('filterYear', allYears, state.activeYears, null, updateMap);
+const statusSelect      = buildSingleSelect('filterStatus', ['Ativo', 'Inativo'], state.activeStatus, updateMap);
+const tipoSelect        = buildMultiSelect('filterTipo', allTipos, state.activeTipos, null, updateMap);
 
 // ===== FILTER NOTICE =====
 function updateFilterNotice() {
-  const active = activeRegionals.size > 0 || activeYears.size > 0
-    || activeStatus.size > 0 || activeTipos.size > 0 || activeCidades.size > 0
-    || activeEmpreendimentos.size > 0 || searchTerm;
+  const active = state.activeRegionals.size > 0 || state.activeYears.size > 0
+    || state.activeStatus.size > 0 || state.activeTipos.size > 0 || state.activeCidades.size > 0
+    || state.activeEmpreendimentos.size > 0 || state.searchTerm;
   document.getElementById('filterNotice').style.display = active ? 'flex' : 'none';
 }
 
 document.getElementById('clearFiltersBtn').addEventListener('click', () => {
-  activeRegionals.clear();
-  activeYears.clear();
-  activeStatus.clear();
-  activeTipos.clear();
-  activeCidades.clear();
-  activeEmpreendimentos.clear();
-  searchTerm = '';
+  state.activeRegionals.clear();
+  state.activeYears.clear();
+  state.activeStatus.clear();
+  state.activeTipos.clear();
+  state.activeCidades.clear();
+  state.activeEmpreendimentos.clear();
+  state.searchTerm = '';
   document.getElementById('searchInput').value = '';
   localizacaoSelect._sync();
   yearSelect._sync();
@@ -682,7 +661,7 @@ document.getElementById('clearFiltersBtn').addEventListener('click', () => {
 
 // ===== SEARCH =====
 document.getElementById('searchInput').addEventListener('input', (e) => {
-  searchTerm = e.target.value.toUpperCase();
+  state.searchTerm = e.target.value.toUpperCase();
   updateMap();
 });
 
@@ -761,30 +740,30 @@ function popupContent(item) {
 
 // ===== FILTER LOGIC =====
 function passesFilter(item) {
-  if (somenteVinculados && !isLinked(item)) return false;
+  if (state.somenteVinculados && !isLinked(item)) return false;
 
-  if (activeRegionals.size > 0) {
+  if (state.activeRegionals.size > 0) {
     const r = isLinked(item) ? item.e.regional : null;
-    if (!r || !activeRegionals.has(r)) return false;
+    if (!r || !state.activeRegionals.has(r)) return false;
   }
 
-  if (activeYears.size > 0) {
+  if (state.activeYears.size > 0) {
     const y = isLinked(item) ? String(item.e.year ?? '') : '';
-    if (!y || !activeYears.has(y)) return false;
+    if (!y || !state.activeYears.has(y)) return false;
   }
 
-  if (activeStatus.size > 0) {
+  if (state.activeStatus.size > 0) {
     if (!isLinked(item)) return false;
     const s = item.e.on_off === 1 ? 'Ativo' : 'Inativo';
-    if (!activeStatus.has(s)) return false;
+    if (!state.activeStatus.has(s)) return false;
   }
 
-  if (activeTipos.size > 0) {
+  if (state.activeTipos.size > 0) {
     const t = isLinked(item) ? String(item.e.tipo ?? '') : '';
-    if (!t || !activeTipos.has(t)) return false;
+    if (!t || !state.activeTipos.has(t)) return false;
   }
 
-  if (searchTerm) {
+  if (state.searchTerm) {
     const haystack = [
       item.n,
       item.e ? item.e.nome           : '',
@@ -792,18 +771,18 @@ function passesFilter(item) {
       item.e ? item.e.empreendimento : '',
       item.e ? item.e.regional       : ''
     ].join(' ').toUpperCase();
-    if (!haystack.includes(searchTerm)) return false;
+    if (!haystack.includes(state.searchTerm)) return false;
   }
 
-  if (activeCidades.size > 0) {
+  if (state.activeCidades.size > 0) {
     if (!isLinked(item)) return false;
-    if (!activeCidades.has(item.e.cidade)) return false;
+    if (!state.activeCidades.has(item.e.cidade)) return false;
   }
 
-  if (activeEmpreendimentos.size > 0) {
+  if (state.activeEmpreendimentos.size > 0) {
     if (!isLinked(item)) return false;
     const emp = item.e.empreendimento || item.e.nome;
-    if (!activeEmpreendimentos.has(emp)) return false;
+    if (!state.activeEmpreendimentos.has(emp)) return false;
   }
 
   return true;
@@ -887,7 +866,7 @@ map.on('zoomend', applyZoomVisibility);
 // ===== RENDER MAP + LIST =====
 function updateMap() {
   layerGroup.clearLayers();
-  polygonLayers = [];
+  state.polygonLayers = [];
   const listEl = document.getElementById('listContainer');
   listEl.innerHTML = '';
   let visibleCount = 0;
@@ -907,7 +886,7 @@ function updateMap() {
       polygon.on('mouseout',  function () { this.setStyle({ weight: 2, fillOpacity: 0.15 }); });
       polygon.bindPopup(popupContent(item), { maxWidth: 320, className: '' });
       polygon.addTo(layerGroup);
-      polygonLayers.push({ layer: polygon, item: item, idx: idx, centroid: centroid });
+      state.polygonLayers.push({ layer: polygon, item: item, idx: idx, centroid: centroid });
     });
 
     if (item.p.length === 0 && centroid) {
@@ -916,7 +895,7 @@ function updateMap() {
       });
       marker.bindPopup(popupContent(item), { maxWidth: 320 });
       marker.addTo(layerGroup);
-      polygonLayers.push({ layer: marker, item: item, idx: idx, centroid: centroid, isMarker: true });
+      state.polygonLayers.push({ layer: marker, item: item, idx: idx, centroid: centroid, isMarker: true });
     }
 
     const div = document.createElement('div');
@@ -949,7 +928,7 @@ function updateMap() {
     div.onclick = () => {
       if (centroid) {
         map.flyTo(centroid, 14, { duration: 1.0 });
-        const pl = polygonLayers.find(p => p.idx === idx);
+        const pl = state.polygonLayers.find(p => p.idx === idx);
         if (pl) setTimeout(() => pl.layer.openPopup(centroid), 600);
       }
       document.querySelectorAll('.list-item').forEach(el => el.classList.remove('highlight'));

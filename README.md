@@ -53,12 +53,12 @@ Ao selecionar um terreno, exibe:
 | DM Sans / JetBrains Mono | — | Tipografia (Google Fonts) |
 
 ### Pipeline de Dados (Python)
-| Tecnologia | Uso |
-|---|---|
-| Python 3 | Script de geração do `data.js` |
-| `openpyxl` | Leitura da planilha Excel (`.xlsx`) |
-| `lxml` | Parsing dos arquivos KML |
-| `json` / `math` / `pathlib` | Utilitários padrão |
+| Tecnologia | Versão mínima | Uso |
+|---|---|---|
+| Python | 3.11 | Script de geração do `data.js` |
+| `openpyxl` | 3.1.0 | Leitura da planilha Excel (`.xlsx`) |
+| `lxml` | 5.0.0 | Parsing dos arquivos KML |
+| `json` / `math` / `pathlib` | — | Utilitários padrão |
 
 ### Formatos de Dados
 | Formato | Uso |
@@ -72,29 +72,31 @@ Ao selecionar um terreno, exibe:
 ## 📁 Estrutura do Repositório
 
 ```
-mapa-teste/
+land-bank-mapa-brasil-terrenos/
 │
-├── index.html              # Página principal da aplicação
-├── app.js                  # Lógica JavaScript (mapa, filtros, sidebar, popups)
-├── styles.css              # Estilos CSS completos
+├── index.html                        # Página principal da aplicação
+├── app.js                            # Lógica JavaScript (mapa, filtros, sidebar, popups)
+├── styles.css                        # Estilos CSS completos
 │
-├── data.js                 # GERADO: não editar manualmente
-│                           # Gerado por gerar_data.py; contém todos os
-│                           # terrenos, cores e estatísticas em formato JS
+├── data.js                           # GERADO — não editar manualmente
+│                                     # Gerado por gerar_data.py; contém todos os
+│                                     # terrenos, cores e estatísticas em formato JS
 │
-├── gerar_data.py           # Script Python para gerar o data.js
-├── AREAS_LAND_BANK.xlsx    # Planilha com dados dos empreendimentos
+├── gerar_data.py                     # Script Python para gerar o data.js
+├── requirements.txt                  # Dependências Python do pipeline
+├── areas_land_bank_com_id.xlsx       # Planilha com dados dos empreendimentos
 │
-├── kml/                    # Arquivos KML organizados por estado/cidade
-│   ├── 10 PARÁ/
-│   │   ├── PA - SANTARÉM/
-│   │   │   ├── SANTARÉM.CJD06.kml
-│   │   │   └── ...
-│   │   └── PA - REDENÇÃO/
-│   │       └── ...
-│   └── ... (demais estados e regiões)
+├── kml/                              # Arquivos KML (polígonos georreferenciados)
+│   └── MAP*.kml                      # Nomeação: MAP{número}_{descrição}.kml
 │
-└── logo_brasil_terrenos.png  # Logotipo exibido na sidebar
+├── assets/
+│   ├── favicons/                     # Favicon e ícones PWA
+│   └── images/                       # Logo e demais imagens
+│
+└── docs/
+    ├── guia-atualizacao.md           # Como adicionar e editar terrenos
+    ├── referencia-colunas.md         # Referência das colunas da planilha
+    └── formato-data-js.md            # Estrutura do arquivo data.js gerado
 ```
 
 ---
@@ -111,9 +113,11 @@ kml/*.kml             ───┘
 
 ### Como gerar o `data.js`
 
+**Pré-requisito:** Python 3.11 ou superior.
+
 **1. Instale as dependências Python:**
 ```bash
-pip install openpyxl lxml
+pip install -r requirements.txt
 ```
 
 **2. Execute o script:**
@@ -124,7 +128,7 @@ python gerar_data.py
 **3. Faça commit e push do `data.js` gerado:**
 ```bash
 git add data.js
-git commit -m "Atualiza data.js"
+git commit -m "dados: atualiza data.js"
 git push
 ```
 
@@ -179,6 +183,28 @@ npx serve .
 Acesse em: `http://localhost:8000`
 
 > **Atenção:** Não abra o `index.html` diretamente no navegador (`file://`) pois o carregamento do `data.js` pode ser bloqueado por restrições de CORS.
+
+**VS Code — Live Server:** a porta padrão do projeto é `5501`. Copie `.vscode/settings.json.example` para `.vscode/settings.json` para configurar automaticamente.
+
+---
+
+## 🌐 Deploy
+
+A aplicação é um site estático — qualquer hospedagem de arquivos estáticos funciona (GitHub Pages, Netlify, servidor próprio, etc.).
+
+**Fluxo atual (manual):**
+
+1. Atualizar `areas_land_bank_com_id.xlsx` e/ou arquivos em `kml/`
+2. Rodar `python gerar_data.py` para gerar o `data.js` atualizado
+3. Commitar e fazer push do `data.js`:
+   ```bash
+   git add data.js
+   git commit -m "dados: atualiza data.js"
+   git push
+   ```
+4. O servidor/hospedagem serve os arquivos atualizados
+
+> O `data.js` é o único arquivo que muda a cada atualização de dados — os demais (`index.html`, `app.js`, `styles.css`) só mudam quando há alterações na aplicação.
 
 ---
 

@@ -1271,123 +1271,6 @@ body {
   color: rgba(255,255,255,0.9);
 }
 
-/* ---- Banner de manutenção ---- */
-.manutencao-banner {
-  position: absolute;
-  bottom: calc(15px + 10px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: calc(var(--z-footer) + 1);
-  overflow: hidden;
-
-  display: flex;   /* flex = em manutenção  | none = fora de manutenção */
-  align-items: center;
-  gap: 8px;
-
-  background: hsla(48, 100%, 96%, 0.9);
-  border: 1px solid rgba(245, 158, 11, 0.4);
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-
-  padding: 8px 14px;
-  max-width: 480px;
-  width: max-content;
-
-  font-size: 12px;
-  font-weight: 500;
-  color: #92400e;
-
-  animation: bannerIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
-}
-
-.manutencao-banner::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -75%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0) 30%,
-    rgba(255,255,255,0.55) 50%,
-    rgba(255,255,255,0) 70%,
-    transparent 100%
-  );
-  animation: lightSweep 3.5s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.manutencao-banner svg {
-  width: 13px;
-  height: 13px;
-  flex-shrink: 0;
-  color: #d97706;
-}
-
-.manutencao-banner strong {
-  font-weight: 700;
-  color: #78350f;
-}
-
-.manutencao-close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  margin-left: 4px;
-  border: none;
-  background: transparent;
-  border-radius: 5px;
-  cursor: not-allowed;
-  color: #b45309;
-  opacity: 0.25;
-  transition: opacity 0.4s ease, background var(--t-fast);
-}
-
-.manutencao-close:not(:disabled) {
-  cursor: pointer;
-  opacity: 0.6;
-}
-
-.manutencao-close:not(:disabled):hover {
-  background: rgba(180, 83, 9, 0.12);
-  opacity: 1;
-}
-
-.manutencao-close svg {
-  width: 11px;
-  height: 11px;
-}
-
-.manutencao-countdown {
-  font-size: 10px;
-  font-weight: 600;
-  font-family: var(--font-mono);
-  line-height: 1;
-  transition: opacity 0.3s ease;
-}
-
-.manutencao-close:not(:disabled) .manutencao-countdown {
-  display: none;
-}
-
-.manutencao-banner.hidden {
-  display: none;
-}
-
-@keyframes bannerIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-@keyframes lightSweep {
-  0%   { left: -75%; }
-  100% { left: 125%; }
-}
 
 /* ============================================================
    14. SCROLLBAR CUSTOMIZATION
@@ -1468,19 +1351,7 @@ body {
   .ov-tooltip { min-width: 130px; max-width: 185px; padding: 8px 10px; }
   .ov-tooltip strong { font-size: 11px; }
 
-  .manutencao-banner {
-    left: 12px;
-    right: 12px;
-    transform: none;
-    width: auto;
-    max-width: none;
-    bottom: calc(26px + 10px);
-  }
 
-  @keyframes bannerIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
 }
 
 
