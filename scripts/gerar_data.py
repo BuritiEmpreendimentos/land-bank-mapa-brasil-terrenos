@@ -10,10 +10,10 @@
 #   ⚙️  CONFIGURAÇÃO — EDITE AQUI
 # ─────────────────────────────────────────────
 
-EXCEL_PATH  = "areas_land_bank_com_id.xlsx"
+EXCEL_PATH  = "../data/areas_land_bank_com_id.xlsx"
 EXCEL_SHEET = None
-KML_FOLDER  = "kml"
-OUTPUT_PATH = "data.js"
+KML_FOLDER  = "../data/kml"
+OUTPUT_PATH = "../src/data.js"
 COLUNA_ID   = "ID"
 ID_REGEX    = r'^(MAP\d+)'
 

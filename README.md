@@ -74,29 +74,40 @@ Ao selecionar um terreno, exibe:
 ```
 land-bank-mapa-brasil-terrenos/
 │
-├── index.html                        # Página principal da aplicação
-├── app.js                            # Lógica JavaScript (mapa, filtros, sidebar, popups)
-├── styles.css                        # Estilos CSS completos
+├── index.html                        # Página principal (raiz — GitHub Pages)
 │
-├── data.js                           # GERADO — não editar manualmente
-│                                     # Gerado por gerar_data.py; contém todos os
-│                                     # terrenos, cores e estatísticas em formato JS
+├── src/                              # Aplicação web completa
+│   ├── app.js                        # Orquestrador (entry point)
+│   ├── state.js                      # Dados globais e estado da aplicação
+│   ├── utils.js                      # Funções de formatação e helpers
+│   ├── filters.js                    # Filtros: construtores e lógica
+│   ├── map.js                        # Mapa Leaflet: camadas e marcadores
+│   ├── ui.js                         # Interface: lista, popup, stats, sidebar
+│   ├── styles.css                    # Estilos CSS
+│   ├── data.js                       # GERADO — não editar manualmente
+│   └── assets/
+│       ├── favicons/                 # Favicon e ícones PWA
+│       └── images/                   # Logo e demais imagens
 │
-├── gerar_data.py                     # Script Python para gerar o data.js
+├── data/                             # Fontes de dados brutas
+│   ├── areas_land_bank_com_id.xlsx   # Planilha com dados dos empreendimentos
+│   └── kml/                          # Arquivos KML (polígonos georreferenciados)
+│       └── MAP*.kml                  # Nomeação: MAP{número}_{descrição}.kml
+│
+├── scripts/                          # Pipeline de processamento
+│   └── gerar_data.py                 # Gera src/data.js a partir de data/ 
+│
+├── docs/
+│   ├── guia-atualizacao.md           # Como adicionar e editar terrenos
+│   ├── referencia-colunas.md         # Referência das colunas da planilha
+│   └── formato-data-js.md            # Estrutura do arquivo data.js gerado
+│
 ├── requirements.txt                  # Dependências Python do pipeline
-├── areas_land_bank_com_id.xlsx       # Planilha com dados dos empreendimentos
-│
-├── kml/                              # Arquivos KML (polígonos georreferenciados)
-│   └── MAP*.kml                      # Nomeação: MAP{número}_{descrição}.kml
-│
-├── assets/
-│   ├── favicons/                     # Favicon e ícones PWA
-│   └── images/                       # Logo e demais imagens
-│
-└── docs/
-    ├── guia-atualizacao.md           # Como adicionar e editar terrenos
-    ├── referencia-colunas.md         # Referência das colunas da planilha
-    └── formato-data-js.md            # Estrutura do arquivo data.js gerado
+├── .python-version                   # Versão Python requerida
+├── .gitignore
+├── README.md
+└── .vscode/
+    └── settings.json.example         # Configuração recomendada do Live Server
 ```
 
 ---
@@ -106,9 +117,9 @@ land-bank-mapa-brasil-terrenos/
 O site é alimentado pelo arquivo `data.js`, gerado automaticamente pelo script `gerar_data.py`. O fluxo é:
 
 ```
-AREAS_LAND_BANK.xlsx  ───┐
-                         ├──► gerar_data.py  ──►  data.js  ──►  Site
-kml/*.kml             ───┘
+data/areas_land_bank_com_id.xlsx  ───┐
+                                     ├──► scripts/gerar_data.py  ──►  src/data.js  ──►  Site
+data/kml/*.kml                    ───┘
 ```
 
 ### Como gerar o `data.js`
@@ -120,31 +131,31 @@ kml/*.kml             ───┘
 pip install -r requirements.txt
 ```
 
-**2. Execute o script:**
+**2. Execute o script a partir da pasta `scripts/`:**
 ```bash
+cd scripts
 python gerar_data.py
 ```
 
-**3. Faça commit e push do `data.js` gerado:**
+**3. Faça commit e push do `src/data.js` gerado:**
 ```bash
-git add data.js
+git add src/data.js
 git commit -m "dados: atualiza data.js"
 git push
 ```
 
 O site atualizará automaticamente após o push.
 
-### Configuração do script (`gerar_data.py`)
+### Configuração do script (`scripts/gerar_data.py`)
 
 No início do arquivo, edite as seguintes variáveis conforme necessário:
 
 | Variável | Padrão | Descrição |
 |---|---|---|
-| `EXCEL_PATH` | `areas_land_bank_com_id.xlsx` | Caminho da planilha Excel |
+| `EXCEL_PATH` | `../data/areas_land_bank_com_id.xlsx` | Caminho da planilha Excel |
 | `EXCEL_SHEET` | `None` (primeira aba) | Nome da aba da planilha |
-| `KML_FOLDER` | `kml` | Pasta com os arquivos KML |
-| `OUTPUT_PATH` | `data.js` | Arquivo de saída |
-| `COLUNA_CHAVE` | `Nome` | Coluna usada para vincular KML ↔ planilha |
+| `KML_FOLDER` | `../data/kml` | Pasta com os arquivos KML |
+| `OUTPUT_PATH` | `../src/data.js` | Arquivo de saída |
 
 ### Lógica de vinculação KML ↔ Planilha
 
@@ -170,10 +181,10 @@ O script vincula cada arquivo KML com a linha correspondente na planilha pela ta
 
 ## 🚀 Como Executar Localmente
 
-Por ser uma aplicação estática (HTML + JS + CSS), basta servir os arquivos com qualquer servidor HTTP local:
+Por ser uma aplicação estática (HTML + JS + CSS), basta servir a pasta `src/` com qualquer servidor HTTP local:
 
 ```bash
-# Com Python
+# Com Python (a partir da raiz do projeto)
 python -m http.server 8000
 
 # Com Node.js (npx)
@@ -182,9 +193,9 @@ npx serve .
 
 Acesse em: `http://localhost:8000`
 
-> **Atenção:** Não abra o `index.html` diretamente no navegador (`file://`) pois o carregamento do `data.js` pode ser bloqueado por restrições de CORS.
+> **Atenção:** Não abra o `index.html` diretamente no navegador (`file://`) pois o uso de ES Modules requer um servidor HTTP.
 
-**VS Code — Live Server:** a porta padrão do projeto é `5501`. Copie `.vscode/settings.json.example` para `.vscode/settings.json` para configurar automaticamente.
+**VS Code — Live Server:** copie `.vscode/settings.json.example` para `.vscode/settings.json`. A configuração já aponta para a raiz do projeto na porta `5501`.
 
 ---
 
@@ -198,7 +209,7 @@ A aplicação é um site estático — qualquer hospedagem de arquivos estático
 2. Rodar `python gerar_data.py` para gerar o `data.js` atualizado
 3. Commitar e fazer push do `data.js`:
    ```bash
-   git add data.js
+   git add src/data.js
    git commit -m "dados: atualiza data.js"
    git push
    ```
