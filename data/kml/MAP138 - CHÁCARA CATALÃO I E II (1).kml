@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>CHÁCARA CATALÃO I E II.kml</name>
+	<atom:link rel="app" href="https://www.google.com/earth/about/versions/#earth-pro" title="Google Earth Pro 7.3.6.10201"></atom:link>
+	<StyleMap id="yellowLineGreenPoly">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#yellowLineGreenPoly1</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#yellowLineGreenPoly4</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="yellowLineGreenPoly0">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#yellowLineGreenPoly2</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#yellowLineGreenPoly3</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="yellowLineGreenPoly1">
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle>
+			<fill>0</fill>
+		</PolyStyle>
+	</Style>
+	<Style id="yellowLineGreenPoly2">
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle>
+			<fill>0</fill>
+		</PolyStyle>
+	</Style>
+	<Style id="yellowLineGreenPoly3">
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle>
+			<fill>0</fill>
+		</PolyStyle>
+	</Style>
+	<Style id="yellowLineGreenPoly4">
+		<LineStyle>
+			<color>ff00ffff</color>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle>
+			<fill>0</fill>
+		</PolyStyle>
+	</Style>
+	<Placemark>
+		<name>CHÁCARA CATALÃO I</name>
+		<styleUrl>#yellowLineGreenPoly</styleUrl>
+		<Polygon>
+			<gx:altitudeMode>clampToSeaFloor</gx:altitudeMode>
+			<outerBoundaryIs>
+				<LinearRing>
+					<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+					<coordinates>
+						-49.88131738388891,-6.10938707388888,0 -49.8769674058333,-6.10960554166667,0 -49.86851993833331,-6.10944237055556,0 -49.8678658986111,-6.11028737388889,0 -49.8671027827778,-6.11113687611113,0 -49.8664004441667,-6.11243977249999,0 -49.8661693405556,-6.1125717152778,0 -49.8810979711111,-6.112658189166681,0 -49.8810382552778,-6.11208233166664,0 -49.8809832947222,-6.11181419916668,0 -49.8810337822222,-6.111690981388911,0 -49.88125836499999,-6.11132978277777,0 -49.8812071505555,-6.111059197777799,0 -49.88093095749999,-6.11071389777775,0 -49.8808948288889,-6.11063244833334,0 -49.8808931183333,-6.11014221916665,0 -49.88131738388891,-6.10938707388888,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+	<Placemark>
+		<name>CHÁCARA CATALÃO II</name>
+		<styleUrl>#yellowLineGreenPoly0</styleUrl>
+		<Polygon>
+			<gx:altitudeMode>clampToSeaFloor</gx:altitudeMode>
+			<outerBoundaryIs>
+				<LinearRing>
+					<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+					<coordinates>
+						-49.8810979711111,-6.112658189166681,0 -49.8661693405556,-6.1125717152778,0 -49.8656315483333,-6.11313072694445,0 -49.8649431666667,-6.11362206527778,0 -49.8647240483334,-6.11424475277778,0 -49.8643454486111,-6.11536140499998,0 -49.8805701963889,-6.11541953249998,0 -49.8804789422222,-6.115279603611139,0 -49.88028732305559,-6.11526599000002,0 -49.8801192638889,-6.11529450111112,0 -49.8800907877778,-6.115248259999991,0 -49.88004746916669,-6.11513076194444,0 -49.8801678997222,-6.114676070555579,0 -49.8801974275,-6.11436013250002,0 -49.8804290822222,-6.11349304972221,0 -49.8805523547222,-6.11340519416669,0 -49.8806274366666,-6.1131396477778,0 -49.8809028577778,-6.11307835638886,0 -49.88108956805561,-6.11295801777776,0 -49.8810979711111,-6.112658189166681,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+</Document>
+</kml>
