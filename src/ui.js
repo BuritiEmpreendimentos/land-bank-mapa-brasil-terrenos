@@ -162,23 +162,26 @@ function popupContent(item) {
 }
 
 // ===== INICIALIZAR FILTROS =====
-const allYears = [...new Set(
-  items.filter(i => isLinked(i) && i.e.year)
-    .map(i => String(i.e.year))
-    .filter(y => y !== 'null' && y !== 'None' && y.trim() !== '')
-)].sort();
+let localizacaoSelect, yearSelect, statusSelect, tipoSelect;
 
-const allTipos = [...new Set(
-  items.filter(i => isLinked(i) && i.e.tipo)
-    .map(i => String(i.e.tipo))
-    .filter(t => t !== 'null' && t !== 'None' && t.trim() !== '')
-)].sort();
+export function initFilters() {
+  const allYears = [...new Set(
+    items.filter(i => isLinked(i) && i.e.year)
+      .map(i => String(i.e.year))
+      .filter(y => y !== 'null' && y !== 'None' && y.trim() !== '')
+  )].sort();
 
-// updateMap é passado como callback para evitar dependência circular
-const localizacaoSelect = buildTreeSelect('filterLocalizacao', () => updateMap());
-const yearSelect        = buildMultiSelect('filterYear', allYears, state.activeYears, null, () => updateMap());
-const statusSelect      = buildSingleSelect('filterStatus', ['Ativo', 'Inativo'], state.activeStatus, () => updateMap());
-const tipoSelect        = buildMultiSelect('filterTipo', allTipos, state.activeTipos, null, () => updateMap());
+  const allTipos = [...new Set(
+    items.filter(i => isLinked(i) && i.e.tipo)
+      .map(i => String(i.e.tipo))
+      .filter(t => t !== 'null' && t !== 'None' && t.trim() !== '')
+  )].sort();
+
+  localizacaoSelect = buildTreeSelect('filterLocalizacao', () => updateMap());
+  yearSelect        = buildMultiSelect('filterYear', allYears, state.activeYears, null, () => updateMap());
+  statusSelect      = buildSingleSelect('filterStatus', ['Ativo', 'Inativo'], state.activeStatus, () => updateMap());
+  tipoSelect        = buildMultiSelect('filterTipo', allTipos, state.activeTipos, null, () => updateMap());
+}
 
 // ===== FILTER NOTICE =====
 function updateFilterNotice() {

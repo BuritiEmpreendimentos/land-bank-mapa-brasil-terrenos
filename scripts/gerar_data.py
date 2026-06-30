@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║           GERADOR DE data.js — Land Bank Grupo Brasil            ║
-║  Lê a planilha Excel + arquivos KML e gera o data.js do site.    ║
+║          GERADOR DE data.json — Land Bank Grupo Brasil           ║
+║  Lê a planilha Excel + arquivos KML e gera o data.json do site.  ║
 ╚══════════════════════════════════════════════════════════════════╝
 """
 
@@ -13,7 +13,7 @@
 EXCEL_PATH  = "../data/areas_land_bank_com_id.xlsx"
 EXCEL_SHEET = None
 KML_FOLDER  = "../data/kml"
-OUTPUT_PATH = "../src/data.js"
+OUTPUT_PATH = "../src/data.json"
 COLUNA_ID   = "ID"
 ID_REGEX    = r'^(MAP\d+)'
 
@@ -355,15 +355,14 @@ def _calcular_stats(items, registros_excel):
 
 
 def _escrever_saida(data, output_path):
-    """Serializa o objeto data para o arquivo data.js."""
-    js_content = "const DATA = " + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + ";"
+    """Serializa o objeto data para o arquivo data.json."""
     with open(output_path, "w", encoding="utf-8") as f:
-        f.write(js_content)
+        json.dump(data, f, ensure_ascii=False, separators=(',', ':'))
 
 
 def main():
     print("\n" + "═"*60)
-    print("  🗺️  GERADOR data.js — Land Bank Grupo Brasil")
+    print("  🗺️  GERADOR data.json — Land Bank Grupo Brasil")
     print("═"*60)
 
     # ── Leitura do Excel ─────────────────────────────────────────
@@ -453,7 +452,7 @@ def main():
 
     # ── Relatório ─────────────────────────────────────────────────
     print(f"{'═'*60}")
-    print(f"  ✅ data.js gerado com sucesso!")
+    print(f"  ✅ data.json gerado com sucesso!")
     print(f"{'═'*60}")
     print(f"  📦 Total de itens gerados:                {len(items)}")
     print(f"  📋 Total de registros na planilha:        {stats['total_planilha']}")
@@ -493,7 +492,7 @@ def main():
             print(f"     • [{label}] \"{nome}\"")
 
     print(f"\n{'═'*60}")
-    print("  👉 Próximo passo: faça commit e push do data.js para")
+    print("  👉 Próximo passo: faça commit e push do data.json para")
     print("     o repositório. O site atualizará automaticamente.")
     print(f"{'═'*60}\n")
 

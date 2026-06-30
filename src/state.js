@@ -1,10 +1,15 @@
-export const items  = DATA.items;
-export const colors = DATA.colors;
-export const stats  = DATA.stats;
+export let items  = [];
+export let colors = {};
+export let stats  = {};
 
-if (DATA.last_updated) {
-  const el = document.getElementById('lastUpdatedDate');
-  if (el) el.textContent = DATA.last_updated;
+export function init(data) {
+  items  = data.items;
+  colors = data.colors;
+  stats  = data.stats;
+  if (data.last_updated) {
+    const el = document.getElementById('lastUpdatedDate');
+    if (el) el.textContent = data.last_updated;
+  }
 }
 
 export const state = {

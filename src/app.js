@@ -1,5 +1,11 @@
-import './state.js';
+import { init } from './state.js';
 import './map.js';
-import { updateMap } from './ui.js';
+import { updateMap, initFilters } from './ui.js';
 
-updateMap();
+fetch('src/data.json')
+  .then(r => r.json())
+  .then(data => {
+    init(data);
+    initFilters();
+    updateMap();
+  });
