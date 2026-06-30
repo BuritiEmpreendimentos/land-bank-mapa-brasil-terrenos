@@ -22,4 +22,5 @@ export const state = {
   polygonLayers:         [],
   searchTerm:            '',
   somenteVinculados:     false,
+  collapsedGroups:       new Set(),
 };
