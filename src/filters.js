@@ -301,8 +301,12 @@ export function buildTreeSelect(containerId, onChangeFn) {
     const allChk = document.createElement('input');
     allChk.type = 'checkbox';
     allChk.checked = state.activeRegionals.size === 0 && state.activeCidades.size === 0 && state.activeEmpreendimentos.size === 0;
+    const allLblText = document.createElement('span');
+    allLblText.textContent = 'Todos';
+    allLblText.style.cursor = 'pointer';
+    allLblText.addEventListener('click', () => allChk.click());
     allRow.appendChild(allChk);
-    allRow.appendChild(document.createTextNode('Todos'));
+    allRow.appendChild(allLblText);
     allChk.addEventListener('change', () => {
       state.activeRegionals.clear();
       state.activeCidades.clear();

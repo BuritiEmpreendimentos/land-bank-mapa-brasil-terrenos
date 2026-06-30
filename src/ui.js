@@ -213,12 +213,77 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
   updateMap();
 });
 
+// ===== LIST ITEM (single empreendimento row) =====
+function buildListItem(item, idx, centroid) {
+  const div = document.createElement('div');
+  div.className = 'list-item list-item-grouped';
+
+  const linked        = isLinked(item);
+  const displayName   = linked ? (item.e.empreendimento || item.e.nome || item.n) : item.n;
+  const cityText      = linked ? (item.e.cidade   || '') : '';
+  const ufText        = linked ? (item.e.uf       || '') : '';
+  const unitsText     = linked && item.e.total_unidades ? fmtNum(item.e.total_unidades) + ' un.' : '';
+  const isActive      = linked ? item.e.on_off === 1 : null;
+  const hasLocation   = !!(centroid);
+  const locationLabel = cityText ? `${cityText}${ufText ? ', ' + ufText : ''}` : '';
+
+  div.innerHTML = `
+    <div class="list-item-meta">
+      ${locationLabel ? `<span class="list-item-city">${locationLabel}</span>` : ''}
+      ${unitsText     ? `<span class="list-item-units">${unitsText}</span>` : ''}
+      ${!linked       ? '<span class="no-match">sem dados</span>' : ''}
+      ${!hasLocation  ? '<span class="no-match" title="Sem coordenadas cadastradas">sem loc.</span>' : ''}
+    </div>
+    <div class="list-item-header">
+      <span class="list-item-name" title="${item.n}">${displayName}</span>
+      ${isActive !== null ? `<span class="list-item-status ${isActive ? 'status-active' : 'status-inactive'}">${isActive ? 'Ativo' : 'Inativo'}</span>` : ''}
+    </div>`;
+
+  div.onclick = () => {
+    if (centroid) {
+      map.flyTo(centroid, 14, { duration: 1.0 });
+      const pl = state.polygonLayers.find(p => p.idx === idx);
+      if (pl) setTimeout(() => pl.layer.openPopup(centroid), 600);
+    }
+    document.querySelectorAll('.list-item').forEach(el => el.classList.remove('highlight'));
+    div.classList.add('highlight');
+    if (window.innerWidth <= 768) closeSidebar();
+  };
+
+  return div;
+}
+
+// ===== LIST GROUP HEADER (regional / cidade) =====
+function buildGroupHeader(level, label, count, groupKey, accentColor) {
+  const header = document.createElement('div');
+  header.className = `list-group-header list-group-header-${level}`;
+  const collapsed = state.collapsedGroups.has(groupKey);
+  header.classList.toggle('collapsed', collapsed);
+
+  header.innerHTML = `
+    <span class="list-group-arrow">▾</span>
+    ${accentColor ? `<span class="list-group-dot" style="background:${accentColor}"></span>` : ''}
+    <span class="list-group-label">${label}</span>
+    <span class="list-group-count">${count}</span>`;
+
+  header.onclick = () => {
+    if (state.collapsedGroups.has(groupKey)) state.collapsedGroups.delete(groupKey);
+    else state.collapsedGroups.add(groupKey);
+    updateMap();
+  };
+
+  return header;
+}
+
 // ===== RENDER MAP + LIST =====
 export function updateMap() {
   layerGroup.clearLayers();
   state.polygonLayers = [];
   const listEl = document.getElementById('listContainer');
   listEl.innerHTML = '';
+
+  // regional -> cidade -> [{item, idx, centroid}]
+  const groups = new Map();
 
   items.forEach((item, idx) => {
     if (!passesFilter(item)) return;
@@ -246,45 +311,47 @@ export function updateMap() {
       state.polygonLayers.push({ layer: marker, item: item, idx: idx, centroid: centroid, isMarker: true });
     }
 
-    const div = document.createElement('div');
-    div.className = 'list-item';
+    const linked   = isLinked(item);
+    const regional = (linked && item.e.regional) ? item.e.regional : 'Sem Regional';
+    const cidade   = (linked && item.e.cidade)   ? item.e.cidade   : 'Sem Cidade';
 
-    const linked        = isLinked(item);
-    const displayName   = linked ? (item.e.empreendimento || item.e.nome || item.n) : item.n;
-    const cityText      = linked ? (item.e.cidade   || '') : '';
-    const ufText        = linked ? (item.e.uf       || '') : '';
-    const regional      = linked ? (item.e.regional || '') : '';
-    const unitsText     = linked && item.e.total_unidades ? fmtNum(item.e.total_unidades) + ' un.' : '';
-    const isActive      = linked ? item.e.on_off === 1 : null;
-    const hasLocation   = !!(centroid);
-    const accentColor   = regional ? (colors[regional] || '#5a6e8e') : '#e4e7ed';
-    const locationLabel = cityText ? `${cityText}${ufText ? ', ' + ufText : ''}` : '';
+    if (!groups.has(regional)) groups.set(regional, new Map());
+    const cidades = groups.get(regional);
+    if (!cidades.has(cidade)) cidades.set(cidade, []);
+    cidades.get(cidade).push({ item, idx, centroid });
+  });
 
-    div.innerHTML = `
-      <div class="list-item-meta">
-        ${regional      ? `<span class="regional-tag" style="background:${accentColor}">${regional}</span>` : ''}
-        ${locationLabel ? `<span class="list-item-city">${locationLabel}</span>` : ''}
-        ${unitsText     ? `<span class="list-item-units">${unitsText}</span>` : ''}
-        ${!linked       ? '<span class="no-match">sem dados</span>' : ''}
-        ${!hasLocation  ? '<span class="no-match" title="Sem coordenadas cadastradas">sem loc.</span>' : ''}
-      </div>
-      <div class="list-item-header">
-        <span class="list-item-name" title="${item.n}">${displayName}</span>
-        ${isActive !== null ? `<span class="list-item-status ${isActive ? 'status-active' : 'status-inactive'}">${isActive ? 'Ativo' : 'Inativo'}</span>` : ''}
-      </div>`;
+  const sortedRegionals = [...groups.keys()].sort((a, b) => a.localeCompare(b, 'pt-BR'));
 
-    div.onclick = () => {
-      if (centroid) {
-        map.flyTo(centroid, 14, { duration: 1.0 });
-        const pl = state.polygonLayers.find(p => p.idx === idx);
-        if (pl) setTimeout(() => pl.layer.openPopup(centroid), 600);
-      }
-      document.querySelectorAll('.list-item').forEach(el => el.classList.remove('highlight'));
-      div.classList.add('highlight');
-      if (window.innerWidth <= 768) closeSidebar();
-    };
+  // Inicia todos os grupos colapsados na primeira renderização
+  if (state.collapsedGroups.size === 0) {
+    sortedRegionals.forEach(regional => {
+      state.collapsedGroups.add(`r:${regional}`);
+    });
+  }
 
-    listEl.appendChild(div);
+  sortedRegionals.forEach(regional => {
+    const cidades       = groups.get(regional);
+    const regionalCount = [...cidades.values()].reduce((s, arr) => s + arr.length, 0);
+    const accentColor   = colors[regional] || '#5a6e8e';
+
+    listEl.appendChild(buildGroupHeader('regional', regional, regionalCount, `r:${regional}`, accentColor));
+
+    if (state.collapsedGroups.has(`r:${regional}`)) return;
+
+    const sortedCidades = [...cidades.keys()].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+    sortedCidades.forEach(cidade => {
+      const rows     = cidades.get(cidade);
+      const cidadeKey = `r:${regional}|c:${cidade}`;
+
+      listEl.appendChild(buildGroupHeader('cidade', cidade, rows.length, cidadeKey, null));
+
+      if (state.collapsedGroups.has(cidadeKey)) return;
+
+      rows.forEach(({ item, idx, centroid }) => {
+        listEl.appendChild(buildListItem(item, idx, centroid));
+      });
+    });
   });
 
   document.getElementById('counter').textContent = `Lista de empreendimentos:`;

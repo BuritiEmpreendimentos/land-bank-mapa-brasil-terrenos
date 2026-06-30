@@ -71,8 +71,10 @@ Object.keys(layerMap).forEach(id => {
   document.getElementById(id).addEventListener('change', () => handleLayerToggle(id));
 });
 
-// Layer panel collapse
-let panelOpen = true;
+// Layer panel collapse — starts closed
+let panelOpen = false;
+document.getElementById('layerBody').classList.add('collapsed');
+document.getElementById('chevron').innerHTML = '&#9654;';
 document.getElementById('layerToggle').addEventListener('click', () => {
   panelOpen = !panelOpen;
   document.getElementById('layerBody').classList.toggle('collapsed', !panelOpen);
