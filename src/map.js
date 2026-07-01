@@ -4,7 +4,7 @@ import { passesFilter, getColor } from './filters.js';
 
 // ===== MAP INIT =====
 export const map = L.map('map', { zoomControl: false, attributionControl: false }).setView([-12, -50], 4);
-L.control.zoom({ position: 'topright' }).addTo(map);
+L.control.zoom({ position: 'bottomright' }).addTo(map);
 
 // ===== TILE LAYERS =====
 const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -92,7 +92,7 @@ function makeOverviewIcon(color) {
   });
 }
 
-export function buildOverviewMarkers() {
+export function buildOverviewMarkers(onSelect) {
   overviewGroup.clearLayers();
 
   items.forEach((item) => {
@@ -128,7 +128,8 @@ export function buildOverviewMarkers() {
     });
 
     marker.on('click', () => {
-      map.flyTo(centroid, 13, { duration: 1.2, easeLinearity: 0.35 });
+      map.flyTo(centroid, 14, { duration: 1.2, easeLinearity: 0.35 });
+      if (onSelect) onSelect(item);
     });
 
     overviewGroup.addLayer(marker);
@@ -137,16 +138,11 @@ export function buildOverviewMarkers() {
 
 export function applyZoomVisibility() {
   const isOverview = map.getZoom() < ZOOM_THRESHOLD;
+  const panes = map.getPanes();
 
-  overviewGroup.eachLayer(l => {
-    const el = l.getElement ? l.getElement() : null;
-    if (el) el.style.display = isOverview ? '' : 'none';
-  });
-
-  layerGroup.eachLayer(l => {
-    const el = l.getElement ? l.getElement() : null;
-    if (el) el.style.display = isOverview ? 'none' : '';
-  });
+  // esconde/mostra o pane inteiro — evita artefatos visuais do SVG container
+  panes.overlayPane.style.display = isOverview ? 'none' : '';
+  panes.markerPane.style.display  = isOverview ? ''     : 'none';
 }
 
 map.on('zoomend', applyZoomVisibility);

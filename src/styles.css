@@ -20,6 +20,8 @@
     15. RESPONSIVO — TABLET  (≤ 900px)
     16. RESPONSIVO — MOBILE  (≤ 768px)
     17. RESPONSIVO — TELAS MUITO PEQUENAS (≤ 380px)
+    18. INFO CARD (desktop)
+    19. INFO SHEET (mobile bottom sheet)
    ============================================================ */
 
 
@@ -695,6 +697,7 @@ body {
   outline: none;
   transition: border-color var(--t-normal), background var(--t-normal), box-shadow var(--t-normal);
   -webkit-appearance: none;
+  appearance: none;
 }
 
 .search-box input:focus {
@@ -924,33 +927,8 @@ body {
 
 
 /* ============================================================
-   9. POPUP
+   9. INFO CONTENT (reutilizado no info-card e info-sheet)
    ============================================================ */
-.leaflet-popup-content-wrapper {
-  background: var(--surface) !important;
-  color: var(--text) !important;
-  border-radius: 14px !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(0,0,0,0.04) !important;
-  overflow: hidden !important;
-}
-
-.leaflet-popup-tip-container { display: none !important; }
-
-.leaflet-popup-close-button {
-  color: var(--text2) !important;
-  font-size: 20px !important;
-  padding: 8px 30px !important;
-  font-weight: 300 !important;
-}
-
-.leaflet-popup-close-button:hover { color: var(--text) !important; }
-
-.leaflet-popup-content {
-  margin: 0 !important;
-  font-family: var(--font-sans) !important;
-  width: 300px !important;
-}
 
 /* Popup header band */
 .popup-header {
@@ -999,7 +977,6 @@ body {
   gap: 10px 20px;
 }
 
-.popup-cell {}
 
 .popup-grid .pg-label {
   font-size: 9px;
@@ -1429,9 +1406,6 @@ body {
   .leaflet-control-zoom { display: none !important; }
   .layer-option { padding: 5px 4px; font-size: 11px; }
 
-  .leaflet-popup-content { width: 260px !important; }
-  .popup-grid { gap: 8px 14px; }
-
   .search-box input { padding: 11px 13px 11px 32px; font-size: 15px; }
 
   .stat-card .val { font-size: 17px; }
@@ -1464,4 +1438,305 @@ body {
   .sidebar { width: 93vw; max-width: none; }
   .stat-card .val { font-size: 15px; }
   .chip { padding: 4px 9px; font-size: 10px; }
+}
+
+
+/* ============================================================
+   18. INFO CARD (desktop — canto superior direito do mapa)
+   ============================================================ */
+.info-card {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: var(--z-layer-panel);
+  width: 320px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(0,0,0,0.04);
+  font-family: var(--font-sans);
+  color: var(--text);
+
+  /* entrada/saída */
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+  transition: opacity var(--t-slow), transform var(--t-slow);
+  pointer-events: none;
+}
+
+.info-card:not([hidden]) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* o atributo [hidden] é removido via JS; precisamos garantir que display não bloqueie */
+.info-card[hidden] {
+  display: block !important;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+  pointer-events: none;
+}
+
+@keyframes cardSlideOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(-16px) scale(0.97); }
+}
+
+.info-card.closing {
+  animation: cardSlideOut 0.22s ease-in forwards;
+  pointer-events: none;
+}
+
+.info-card-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text2);
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+.info-card-close:hover {
+  background: var(--surface3);
+  color: var(--text);
+}
+
+.info-card-close svg { width: 14px; height: 14px; }
+
+.info-card-content { overflow: hidden; border-radius: 14px; }
+
+/* reutiliza as classes .popup-* já existentes */
+.info-card-content .popup-header {
+  padding-right: 40px; /* espaço para o botão fechar */
+}
+
+/* scrollbar discreta dentro do card */
+.info-card::-webkit-scrollbar { width: 4px; }
+.info-card::-webkit-scrollbar-track { background: transparent; }
+.info-card::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+
+/* ============================================================
+   19. INFO SHEET (mobile — bottom sheet)
+   ============================================================ */
+.info-sheet {
+  display: none; /* só ativo em mobile via media query */
+}
+
+@media (max-width: 768px) {
+  /* esconder info-card no mobile */
+  .info-card { display: none !important; }
+
+  .info-sheet {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-drawer);
+    pointer-events: none;
+  }
+
+  /* pointer-events só no painel, não na área do mapa */
+  .info-sheet-panel { pointer-events: auto; }
+
+
+  /* animação de entrada — sensação de puxar o card de baixo para cima */
+  @keyframes sheetSlideDown {
+    from { transform: translateY(0); }
+    to   { transform: translateY(100%); }
+  }
+
+  .info-sheet-panel.closing {
+    animation: sheetSlideDown 0.28s ease-in forwards !important;
+    pointer-events: none;
+  }
+
+  @keyframes sheetPullUp {
+    0%   { transform: translateY(100%); }
+    55%  { transform: translateY(-10px); }
+    72%  { transform: translateY(5px);  }
+    86%  { transform: translateY(-3px); }
+    100% { transform: translateY(0);    }
+  }
+
+  /* nudge sutil para cima — dica de que o painel é expansível */
+  @keyframes sheetHint {
+    0%           { transform: translateY(0);    }
+    3%           { transform: translateY(-10px); }
+    5%           { transform: translateY(-2px);  }
+    7%           { transform: translateY(-8px);  }
+    9%, 100%     { transform: translateY(0);    }
+  }
+
+  /* painel deslizante */
+  .info-sheet-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--surface);
+    border-radius: 20px 20px 0 0;
+    box-shadow:
+      0 -8px 40px rgba(0,0,0,0.22),
+      0 -2px 12px rgba(0,0,0,0.12),
+      0 -1px 0   rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    /* altura colapsada: handle + preview do cabeçalho */
+    height: 168px;
+    max-height: 88dvh;
+    transform: translateY(100%);
+    transition: height 0.28s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform, height;
+    touch-action: none;
+  }
+
+  /* "chão" fixo na borda da tela — cobre o gap durante o hint e o safe area do iOS */
+  .info-sheet.open::after {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40px;
+    background: var(--surface);
+    z-index: -1;
+  }
+
+  .info-sheet.open .info-sheet-panel {
+    animation: sheetPullUp 0.48s ease-out forwards;
+  }
+
+
+  /* altura expandida definida via JS (var --sheet-expanded-h) */
+  .info-sheet.expanded .info-sheet-panel {
+    height: var(--sheet-expanded-h, 88dvh);
+  }
+
+  /* ocultar o corpo das informações enquanto colapsado */
+  .info-sheet:not(.expanded) .popup-body { display: none; }
+  .info-sheet:not(.expanded) .popup-nodata { display: none; }
+
+  /* área de arraste (handle) */
+  .info-sheet-handle-area {
+    flex-shrink: 0;
+    padding: 10px 16px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+  }
+
+  .info-sheet-handle-area:active { opacity: 0.7; }
+
+  .info-sheet-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--text2);
+    transition: background var(--t-fast), color var(--t-fast);
+  }
+
+  .info-sheet-close:active {
+    background: var(--surface3);
+    color: var(--text);
+    opacity: 1;
+  }
+
+  .info-sheet-close svg { width: 14px; height: 14px; }
+
+  .info-sheet-handle {
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border2);
+  }
+
+  /* hint "puxe para ver mais" visível só quando colapsado */
+  .info-sheet-hints {
+    position: relative;
+    width: 100%;
+    height: 16px;
+    pointer-events: none;
+  }
+
+  .info-sheet-hint {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 10px;
+    font-family: var(--font-sans);
+    color: var(--text2);
+    letter-spacing: 0.4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: opacity 0.2s ease;
+  }
+
+  .info-sheet-hint svg { width: 10px; height: 10px; }
+
+  /* "ver mais" → visível quando colapsado */
+  .info-sheet-hint--up svg { animation: hintBounceUp 1.6s ease-in-out infinite; }
+  .info-sheet.expanded .info-sheet-hint--up { opacity: 0; pointer-events: none; }
+
+  /* "fechar" → visível só quando expandido */
+  .info-sheet-hint--down { opacity: 0; pointer-events: none; }
+  .info-sheet-hint--down svg { animation: hintBounceDown 1.6s ease-in-out infinite; }
+  .info-sheet.expanded .info-sheet-hint--down { opacity: 1; pointer-events: auto; }
+
+  @keyframes hintBounceUp {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-3px); }
+  }
+
+  @keyframes hintBounceDown {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(3px); }
+  }
+
+  /* conteúdo rolável */
+  .info-sheet-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    min-height: 0;
+  }
+
+  .info-sheet-content::-webkit-scrollbar { display: none; }
+
+  /* reutiliza .popup-* */
+  .info-sheet-content .popup-header {
+    border-radius: 0;
+    border-top: 1px solid var(--border);
+  }
 }

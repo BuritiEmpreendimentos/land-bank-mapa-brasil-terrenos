@@ -10,6 +10,7 @@ const mobileMenuBtn   = document.getElementById('mobileMenuBtn');
 const sidebarCloseBtn = document.getElementById('sidebarClose');
 
 export function openSidebar() {
+  closeInfoSheet();
   sidebar.classList.add('open');
   overlay.classList.add('visible');
   document.body.style.overflow = 'hidden';
@@ -88,8 +89,8 @@ export function renderStats(filteredItems) {
   `;
 }
 
-// ===== POPUP CONTENT =====
-function popupContent(item) {
+// ===== INFO CONTENT =====
+function buildInfoHTML(item) {
   if (!isLinked(item)) {
     return `
       <div class="popup-header">
@@ -160,6 +161,167 @@ function popupContent(item) {
       </div>
     </div>`;
 }
+
+// ===== INFO CARD / INFO SHEET =====
+const infoCard         = document.getElementById('infoCard');
+const infoCardContent  = document.getElementById('infoCardContent');
+const infoCardClose    = document.getElementById('infoCardClose');
+const infoSheet        = document.getElementById('infoSheet');
+const infoSheetPanel   = document.getElementById('infoSheetPanel');
+const infoSheetHandle  = document.getElementById('infoSheetHandle');
+const infoSheetClose   = document.getElementById('infoSheetClose');
+const infoSheetContent = document.getElementById('infoSheetContent');
+
+function isMobile() { return window.innerWidth <= 768; }
+
+// painel começa invisível para não vazar sombra sobre o mapa
+infoSheetPanel.style.display = 'none';
+
+function closeInfoCard() {
+  infoCard.classList.add('closing');
+  infoCard.addEventListener('animationend', () => {
+    infoCard.classList.remove('closing');
+    infoCard.setAttribute('hidden', '');
+  }, { once: true });
+}
+
+function stopHint() {
+  infoSheetPanel.style.animation = '';
+}
+
+let sheetCloseToken = 0;
+
+function closeInfoSheet() {
+  stopHint();
+  // Se não está aberto, fecha imediatamente sem animação
+  if (!infoSheet.classList.contains('open')) {
+    infoSheet.classList.remove('expanded');
+    infoSheetPanel.style.removeProperty('--sheet-expanded-h');
+    infoSheetPanel.style.display = 'none';
+    return;
+  }
+  const token = ++sheetCloseToken;
+  infoSheetPanel.classList.add('closing');
+  infoSheetPanel.addEventListener('animationend', () => {
+    if (token !== sheetCloseToken) return; // showInfoCard abriu antes de terminar
+    infoSheetPanel.classList.remove('closing');
+    infoSheet.classList.remove('open', 'expanded');
+    infoSheetPanel.style.removeProperty('--sheet-expanded-h');
+    infoSheetPanel.style.display = 'none';
+  }, { once: true });
+}
+
+function expandSheet() {
+  stopHint();
+  // Adiciona .expanded antes de medir: o CSS libera o .popup-body
+  infoSheet.classList.add('expanded');
+
+  // Mede no próximo frame (após o navegador recalcular o layout)
+  requestAnimationFrame(() => {
+    const handleH = infoSheetHandle.offsetHeight;
+    const contentH = infoSheetContent.scrollHeight;
+    const padding  = 24;
+    const maxH     = Math.floor(window.innerHeight * 0.88);
+    const targetH  = Math.min(handleH + contentH + padding, maxH);
+    infoSheetPanel.style.setProperty('--sheet-expanded-h', targetH + 'px');
+  });
+}
+
+export function showInfoCard(item) {
+  const html = buildInfoHTML(item);
+
+  if (isMobile()) {
+    sheetCloseToken++; // invalida qualquer animationend de fechamento em andamento
+    infoSheetContent.innerHTML = html;
+    infoSheet.classList.remove('expanded');
+    infoSheetPanel.classList.remove('closing');
+    infoSheetPanel.style.animation = '';
+    infoSheetPanel.style.display = '';
+    requestAnimationFrame(() => {
+      infoSheet.classList.add('open');
+      // dispara o hint após a animação de entrada terminar (480ms + folga)
+      setTimeout(() => {
+        if (infoSheet.classList.contains('expanded')) return;
+        infoSheetPanel.style.animation = 'sheetHint 9s linear infinite';
+      }, 560);
+    });
+  } else {
+    infoCardContent.innerHTML = html;
+    infoCard.classList.remove('closing');
+    infoCard.removeAttribute('hidden');
+  }
+}
+
+infoCardClose.addEventListener('click', closeInfoCard);
+infoSheetClose.addEventListener('click', (e) => { e.stopPropagation(); closeInfoSheet(); });
+
+// ── Gesto de arrastar o bottom sheet ──
+let dragStartY = 0;
+let dragStartHeight = 0;
+let isDragging = false;
+
+function sheetDragStart(e) {
+  isDragging = true;
+  dragStartY = e.touches[0].clientY;
+  dragStartHeight = infoSheetPanel.getBoundingClientRect().height;
+  infoSheetPanel.style.transition = 'none';
+}
+
+function sheetDragMove(e) {
+  if (!isDragging) return;
+  const dy = dragStartY - e.touches[0].clientY; // positivo = puxou para cima
+  const newHeight = Math.min(
+    Math.max(dragStartHeight + dy, 80),
+    window.innerHeight * 0.88
+  );
+  infoSheetPanel.style.height = newHeight + 'px';
+}
+
+function sheetDragEnd(e) {
+  if (!isDragging) return;
+  isDragging = false;
+  infoSheetPanel.style.transition = '';
+  infoSheetPanel.style.height = '';
+
+  const dy = dragStartY - e.changedTouches[0].clientY;
+  const wasExpanded = infoSheet.classList.contains('expanded');
+
+  if (dy > 60) {
+    // puxou para cima → expandir
+    expandSheet();
+  } else if (dy < -60) {
+    // puxou para baixo com força
+    if (wasExpanded) {
+      // estava expandido → colapsar (não fechar)
+      infoSheet.classList.remove('expanded');
+    } else {
+      // estava colapsado → fechar
+      closeInfoSheet();
+    }
+  }
+  // solto sem força suficiente → mantém estado atual sem mudança
+}
+
+function sheetDragCancel() {
+  if (!isDragging) return;
+  isDragging = false;
+  infoSheetPanel.style.transition = '';
+  infoSheetPanel.style.height = '';
+}
+
+infoSheetHandle.addEventListener('touchstart',  sheetDragStart,  { passive: true });
+infoSheetHandle.addEventListener('touchmove',   sheetDragMove,   { passive: true });
+infoSheetHandle.addEventListener('touchend',    sheetDragEnd,    { passive: true });
+infoSheetHandle.addEventListener('touchcancel', sheetDragCancel, { passive: true });
+
+// toque simples no handle (sem arrastar) → expandir / colapsar
+infoSheetHandle.addEventListener('click', () => {
+  if (infoSheet.classList.contains('expanded')) {
+    infoSheet.classList.remove('expanded');
+  } else {
+    expandSheet();
+  }
+});
 
 // ===== INICIALIZAR FILTROS =====
 let localizacaoSelect, yearSelect, statusSelect, tipoSelect;
@@ -240,14 +402,11 @@ function buildListItem(item, idx, centroid) {
     </div>`;
 
   div.onclick = () => {
-    if (centroid) {
-      map.flyTo(centroid, 14, { duration: 1.0 });
-      const pl = state.polygonLayers.find(p => p.idx === idx);
-      if (pl) setTimeout(() => pl.layer.openPopup(centroid), 600);
-    }
+    if (centroid) map.flyTo(centroid, 14, { duration: 1.2, easeLinearity: 0.35 });
     document.querySelectorAll('.list-item').forEach(el => el.classList.remove('highlight'));
     div.classList.add('highlight');
     if (window.innerWidth <= 768) closeSidebar();
+    showInfoCard(item);
   };
 
   return div;
@@ -303,7 +462,7 @@ export function updateMap() {
       });
       polygon.on('mouseover', function () { this.setStyle({ weight: 3, fillOpacity: 0.28 }); });
       polygon.on('mouseout',  function () { this.setStyle({ weight: 2, fillOpacity: 0.15 }); });
-      polygon.bindPopup(popupContent(item), { maxWidth: 320, className: '' });
+      polygon.on('click', () => showInfoCard(item));
       polygon.addTo(layerGroup);
       state.polygonLayers.push({ layer: polygon, item: item, idx: idx, centroid: centroid });
     });
@@ -312,7 +471,7 @@ export function updateMap() {
       const marker = L.circleMarker(centroid, {
         radius: 7, color: color, fillColor: color, fillOpacity: 0.5, weight: 2.5
       });
-      marker.bindPopup(popupContent(item), { maxWidth: 320 });
+      marker.on('click', () => showInfoCard(item));
       marker.addTo(layerGroup);
       state.polygonLayers.push({ layer: marker, item: item, idx: idx, centroid: centroid, isMarker: true });
     }
@@ -375,7 +534,7 @@ export function updateMap() {
   const filteredItems = items.filter(item => passesFilter(item));
   renderStats(filteredItems);
 
-  buildOverviewMarkers();
+  buildOverviewMarkers(showInfoCard);
   setTimeout(applyZoomVisibility, 0);
   updateFilterNotice();
 }
