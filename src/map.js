@@ -128,7 +128,7 @@ export function buildOverviewMarkers(onSelect) {
     });
 
     marker.on('click', () => {
-      map.flyTo(centroid, 14, { duration: 1.2, easeLinearity: 0.35 });
+      map.flyTo(centroid, 14, { duration: 3, easeLinearity: 0.35 });
       if (onSelect) onSelect(item);
     });
 
@@ -150,3 +150,15 @@ map.on('zoomend', applyZoomVisibility);
 window.addEventListener('resize', () => {
   setTimeout(() => map.invalidateSize(), 100);
 });
+
+// ===== RESET VIEW BUTTON =====
+const _resetBtn = document.createElement('button');
+_resetBtn.className = 'resetview-btn';
+_resetBtn.type = 'button';
+_resetBtn.title = 'Visualizar mapa completo';
+_resetBtn.setAttribute('aria-label', 'Visualizar mapa completo');
+_resetBtn.innerHTML = `<img src="src/assets/images/brazil-outline.svg" alt="Brasil" class="resetview-icon">`;
+_resetBtn.addEventListener('click', () => {
+  map.flyTo([-12, -50], 4, { duration: 3, easeLinearity: 0.35 });
+});
+document.querySelector('.map-wrap').appendChild(_resetBtn);
