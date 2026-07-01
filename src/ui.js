@@ -267,8 +267,14 @@ function buildGroupHeader(level, label, count, groupKey, accentColor) {
     <span class="list-group-count">${count}</span>`;
 
   header.onclick = () => {
-    if (state.collapsedGroups.has(groupKey)) state.collapsedGroups.delete(groupKey);
-    else state.collapsedGroups.add(groupKey);
+    if (state.collapsedGroups.has(groupKey)) {
+      state.collapsedGroups.delete(groupKey);
+      if (!state.expandedCidades) state.expandedCidades = new Set();
+      state.expandedCidades.add(groupKey);
+    } else {
+      state.collapsedGroups.add(groupKey);
+      if (state.expandedCidades) state.expandedCidades.delete(groupKey);
+    }
     updateMap();
   };
 
@@ -340,6 +346,16 @@ export function updateMap() {
     if (state.collapsedGroups.has(`r:${regional}`)) return;
 
     const sortedCidades = [...cidades.keys()].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+    // Colapsa cidades automaticamente quando a regional é aberta pela primeira vez
+    sortedCidades.forEach(cidade => {
+      const cidadeKey = `r:${regional}|c:${cidade}`;
+      if (!state.expandedCidades) state.expandedCidades = new Set();
+      if (!state.expandedCidades.has(cidadeKey)) {
+        state.collapsedGroups.add(cidadeKey);
+      }
+    });
+
     sortedCidades.forEach(cidade => {
       const rows     = cidades.get(cidade);
       const cidadeKey = `r:${regional}|c:${cidade}`;
