@@ -142,6 +142,37 @@
 
     <div id="map"></div>
 
+    <!-- Info card — desktop (fixed, top-right) -->
+    <div class="info-card" id="infoCard" hidden>
+      <button class="info-card-close" id="infoCardClose" aria-label="Fechar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="info-card-content" id="infoCardContent"></div>
+    </div>
+
+    <!-- Info sheet — mobile (bottom sheet) -->
+    <div class="info-sheet" id="infoSheet">
+<div class="info-sheet-panel" id="infoSheetPanel">
+        <div class="info-sheet-handle-area" id="infoSheetHandle">
+          <div class="info-sheet-handle"></div>
+          <button class="info-sheet-close" id="infoSheetClose" aria-label="Fechar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <div class="info-sheet-hints">
+            <div class="info-sheet-hint info-sheet-hint--up">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+              Puxe para ver mais
+            </div>
+            <div class="info-sheet-hint info-sheet-hint--down">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              Puxar para fechar
+            </div>
+          </div>
+        </div>
+        <div class="info-sheet-content" id="infoSheetContent"></div>
+      </div>
+    </div>
+
 <div class="map-footer">
       <span>Centro de Inteligência e Dados</span>
       <span class="map-footer-dot">·</span>
