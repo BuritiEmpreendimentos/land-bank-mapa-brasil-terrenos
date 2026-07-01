@@ -323,6 +323,13 @@ export function updateMap() {
 
   const sortedRegionals = [...groups.keys()].sort((a, b) => a.localeCompare(b, 'pt-BR'));
 
+  // Inicia todos os grupos colapsados na primeira renderização
+  if (state.collapsedGroups.size === 0) {
+    sortedRegionals.forEach(regional => {
+      state.collapsedGroups.add(`r:${regional}`);
+    });
+  }
+
   sortedRegionals.forEach(regional => {
     const cidades       = groups.get(regional);
     const regionalCount = [...cidades.values()].reduce((s, arr) => s + arr.length, 0);
