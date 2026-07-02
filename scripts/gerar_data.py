@@ -17,6 +17,9 @@ OUTPUT_PATH = "../src/data.json"
 COLUNA_ID   = "ID"
 ID_REGEX    = r'^(MAP\d+)'
 
+COLUNA_SITUACAO   = "Situação do Empreendimento"
+SITUACAO_INCLUIDA = "A LANÇAR"
+
 COLUNAS = {
     "nome":                "Nome",
     "codigo":              "Código Modelo",
@@ -64,6 +67,35 @@ def normalizar(texto):
     texto = re.sub(r'\.KML$', '', texto)
     texto = Path(texto).name
     return texto
+
+
+def filtrar_por_situacao(registros, cabecalho, col_id=COLUNA_ID,
+                          col_situacao=COLUNA_SITUACAO, situacao_incluida=SITUACAO_INCLUIDA):
+    """Mantém apenas os registros cuja 'Situação do Empreendimento' seja a incluída (ex.: 'A lançar').
+
+    Retorna também o conjunto de IDs descartados, para diferenciar no relatório
+    um KML "sem vínculo real" de um KML cujo registro existe mas foi filtrado por situação.
+    """
+    col_real    = next((c for c in cabecalho if c.strip().lower() == col_situacao.strip().lower()), None)
+    col_id_real = next((c for c in cabecalho if c.strip().lower() == col_id.strip().lower()), None)
+    if not col_real:
+        print(f"  ℹ️  Coluna '{col_situacao}' não encontrada — nenhum filtro de situação aplicado.")
+        return registros, 0, set()
+
+    incluidos, descartados, contagem_descartados_por_id = [], 0, {}
+    for reg in registros:
+        valor = str(reg.get(col_real, "") or "").strip().upper()
+        if valor == situacao_incluida:
+            incluidos.append(reg)
+        else:
+            descartados += 1
+            if col_id_real:
+                id_val = str(reg.get(col_id_real, "") or "").strip().upper()
+                if id_val:
+                    contagem_descartados_por_id[id_val] = contagem_descartados_por_id.get(id_val, 0) + 1
+
+    print(f"  🚦 Filtro de situação ('{situacao_incluida}'): {len(incluidos)} mantidos, {descartados} descartados")
+    return incluidos, descartados, contagem_descartados_por_id
 
 
 def extrair_id(texto, regex=ID_REGEX):
@@ -360,18 +392,34 @@ def _escrever_saida(data, output_path):
         json.dump(data, f, ensure_ascii=False, separators=(',', ':'))
 
 
+LARGURA = 60
+
+
+def _titulo(texto):
+    print(f"\n{'─'*LARGURA}")
+    print(f"  {texto}")
+    print(f"{'─'*LARGURA}")
+
+
+def _linha(rotulo, valor, marcador="  "):
+    """Imprime 'rotulo ..... valor' alinhado à largura fixa do relatório."""
+    pontos = "." * max(2, LARGURA - len(marcador) - len(rotulo) - len(str(valor)) - 3)
+    print(f"{marcador}{rotulo} {pontos} {valor}")
+
+
 def main():
-    print("\n" + "═"*60)
+    print("\n" + "═"*LARGURA)
     print("  🗺️  GERADOR data.json — Land Bank Grupo Brasil")
-    print("═"*60)
+    print("═"*LARGURA)
 
     # ── Leitura do Excel ─────────────────────────────────────────
-    print(f"\n📊 Lendo planilha: {EXCEL_PATH}")
+    _titulo(f"📊 PLANILHA — {EXCEL_PATH}")
     if not os.path.exists(EXCEL_PATH):
         print(f"  ❌ Arquivo não encontrado: {EXCEL_PATH}")
         return
 
     registros_excel, cabecalho_excel = ler_excel(EXCEL_PATH, EXCEL_SHEET)
+    registros_excel, situacao_descartados, descartados_por_id = filtrar_por_situacao(registros_excel, cabecalho_excel)
 
     indice_excel = {}
     col_id_real  = None
@@ -382,9 +430,9 @@ def main():
             break
 
     if not col_id_real:
-        print(f"\n  ⚠️  Coluna de ID '{COLUNA_ID}' não encontrada no Excel.")
+        print(f"  ⚠️  Coluna de ID '{COLUNA_ID}' não encontrada no Excel.")
         print(f"     Colunas disponíveis: {cabecalho_excel}")
-        print(f"     Continuando sem vincular dados da planilha...\n")
+        print(f"     Continuando sem vincular dados da planilha...")
     else:
         for reg in registros_excel:
             id_val = str(reg.get(col_id_real, "") or "").strip().upper()
@@ -399,8 +447,12 @@ def main():
             for id_k in sorted(set(ids_duplicados.keys())):
                 print(f"     • {id_k}: {len(ids_duplicados[id_k])} registros")
 
+    # IDs com linhas em ambas as situações: pelo menos uma "A lançar" (segue no
+    # processamento) e pelo menos uma "Lançado" (descartada) — caso do MAP030.
+    ids_situacao_mista = sorted(set(indice_excel.keys()) & descartados_por_id.keys())
+
     # ── Leitura e agrupamento dos KMLs ───────────────────────────
-    print(f"\n📁 Buscando KMLs em: {KML_FOLDER}")
+    _titulo(f"📁 ARQUIVOS KML — {KML_FOLDER}")
     if not os.path.exists(KML_FOLDER):
         print(f"  ❌ Pasta não encontrada: {KML_FOLDER}")
         return
@@ -409,8 +461,8 @@ def main():
     arquivos_kml = sorted(set(arquivos_kml))
     print(f"  ✅ {len(arquivos_kml)} arquivos KML encontrados")
 
-    print(f"\n🔗 Vinculando KMLs com a planilha...")
-    print(f"   Chave: prefixo '{ID_REGEX}' do nome do arquivo KML → coluna '{COLUNA_ID}' do Excel\n")
+    print(f"\n  🔗 Vinculando KMLs com a planilha...")
+    print(f"     Chave: prefixo '{ID_REGEX}' do nome do arquivo KML → coluna '{COLUNA_ID}' do Excel")
 
     kml_por_id, kml_sem_poligono, kml_sem_id = _agrupar_kmls(arquivos_kml)
 
@@ -429,6 +481,9 @@ def main():
                 "regional": e.get("regional") or "—",
                 "motivo":   "sem KML" if item["e"] else "KML sem geometria",
             })
+
+    sem_vinculo_real    = [n for n in nao_vinculados if n[1] not in descartados_por_id]
+    excluidos_situacao  = [n for n in nao_vinculados if n[1] in descartados_por_id]
 
     # ── Estatísticas ──────────────────────────────────────────────
     stats, regional_summary, on_map, total_vgv, total_unidades = \
@@ -451,50 +506,74 @@ def main():
     _escrever_saida(data, OUTPUT_PATH)
 
     # ── Relatório ─────────────────────────────────────────────────
-    print(f"{'═'*60}")
-    print(f"  ✅ data.json gerado com sucesso!")
-    print(f"{'═'*60}")
-    print(f"  📦 Total de itens gerados:                {len(items)}")
-    print(f"  📋 Total de registros na planilha:        {stats['total_planilha']}")
-    print(f"  🗺️  Com polígono KML:                      {on_map}")
-    print(f"  📍 Sem localização:                       {len(sem_localizacao)}")
-    print(f"  🔗 IDs KML vinculados à planilha:         {kml_vinculados}")
-    print(f"  ❌ IDs KML sem vínculo na planilha:       {kml_sem_vinculo}")
-    print(f"  📋 Registros só na planilha (sem KML):    {sem_kml}")
-    print(f"  ⚠️  Arquivos KML sem geometria:            {kml_sem_poligono}")
-    print(f"  🏷️  Arquivos KML sem ID reconhecível:      {kml_sem_id}")
-    print(f"  💰 VGV Total:                          R$ {total_vgv:,.1f} mi")
-    print(f"  🏘️  Total de unidades:                     {total_unidades:,.0f}")
+    print("\n" + "═"*LARGURA)
+    print("  ✅ data.json GERADO COM SUCESSO")
+    print("═"*LARGURA)
+
+    print("\n  Planilha")
+    _linha("Situação 'A lançar' considerados",        stats['total_planilha'])
+    _linha("Situação 'Lançado' descartados (linhas)",  situacao_descartados)
+    _linha("KMLs afetados (todas as linhas 'Lançado')", len(excluidos_situacao))
+    _linha("IDs com situação mista (parcial)",          len(ids_situacao_mista))
+
+    print("\n  Vinculação KML ↔ Planilha")
+    _linha("IDs KML vinculados",                 kml_vinculados)
+    _linha("IDs KML sem vínculo",                kml_sem_vinculo)
+    _linha("Registros só na planilha (sem KML)", sem_kml)
+    _linha("Arquivos KML sem geometria",         kml_sem_poligono)
+    _linha("Arquivos KML sem ID reconhecível",   kml_sem_id)
+
+    print("\n  Resultado")
+    _linha("Total de itens gerados",             len(items))
+    _linha("Com polígono no mapa",                on_map)
+    _linha("Sem localização",                     len(sem_localizacao))
+    _linha("Total de unidades",                   f"{total_unidades:,.0f}")
+    _linha("VGV Total",                           f"R$ {total_vgv:,.1f} mi")
+
     print(f"\n  📄 Arquivo gerado: {os.path.abspath(OUTPUT_PATH)}")
 
+    if ids_situacao_mista:
+        _titulo(f"🔀 IDs COM SITUAÇÃO MISTA — 'A lançar' + 'Lançado' ({len(ids_situacao_mista)})")
+        print("  (mantidos no processamento, mas com linha(s) descartada(s) do mesmo ID)")
+        for id_k in ids_situacao_mista:
+            mantidas    = len(indice_excel[id_k])
+            descartadas = descartados_por_id[id_k]
+            print(f"  • {id_k}: {mantidas} linha(s) 'A lançar' mantida(s), {descartadas} linha(s) 'Lançado' descartada(s)")
+
     if sem_localizacao:
-        print(f"\n  📍 {len(sem_localizacao)} registro(s) SEM localização (sem polígono nem centroide):")
+        _titulo(f"📍 SEM LOCALIZAÇÃO ({len(sem_localizacao)} registro(s))")
         col_id_w     = max(len(r["id"])       for r in sem_localizacao)
         col_nome_w   = max(len(r["nome"])     for r in sem_localizacao)
         col_cidade_w = max(len(r["cidade"])   for r in sem_localizacao)
         col_reg_w    = max(len(r["regional"]) for r in sem_localizacao)
         header = (
-            f"     {'ID':<{col_id_w}}  {'Nome':<{col_nome_w}}  "
+            f"  {'ID':<{col_id_w}}  {'Nome':<{col_nome_w}}  "
             f"{'Cidade':<{col_cidade_w}}  {'Regional':<{col_reg_w}}  Motivo"
         )
         print(header)
-        print("     " + "─" * (len(header) - 5))
+        print("  " + "─" * (len(header) - 2))
         for r in sorted(sem_localizacao, key=lambda x: (x["regional"], x["id"])):
             print(
-                f"     {r['id']:<{col_id_w}}  {r['nome']:<{col_nome_w}}  "
+                f"  {r['id']:<{col_id_w}}  {r['nome']:<{col_nome_w}}  "
                 f"{r['cidade']:<{col_cidade_w}}  {r['regional']:<{col_reg_w}}  {r['motivo']}"
             )
 
     if nao_vinculados:
-        print(f"\n  ⚠️  {len(nao_vinculados)} ID(s) KML SEM vínculo na planilha:")
-        for nome, id_encontrado, path in nao_vinculados:
-            label = f"ID={id_encontrado}" if id_encontrado != "sem ID" else "sem ID reconhecível"
-            print(f"     • [{label}] \"{nome}\"")
+        if sem_vinculo_real:
+            _titulo(f"⚠️  KML SEM VÍNCULO NA PLANILHA ({len(sem_vinculo_real)})")
+            for nome, id_encontrado, path in sem_vinculo_real:
+                label = f"ID={id_encontrado}" if id_encontrado != "sem ID" else "sem ID reconhecível"
+                print(f"  • [{label}] \"{nome}\"")
 
-    print(f"\n{'═'*60}")
+        if excluidos_situacao:
+            _titulo(f"🚦 KML COM REGISTRO 'LANÇADO' (excluído do processamento) ({len(excluidos_situacao)})")
+            for nome, id_encontrado, path in excluidos_situacao:
+                print(f"  • [ID={id_encontrado}] \"{nome}\"")
+
+    print("\n" + "═"*LARGURA)
     print("  👉 Próximo passo: faça commit e push do data.json para")
     print("     o repositório. O site atualizará automaticamente.")
-    print(f"{'═'*60}\n")
+    print("═"*LARGURA + "\n")
 
 
 if __name__ == "__main__":

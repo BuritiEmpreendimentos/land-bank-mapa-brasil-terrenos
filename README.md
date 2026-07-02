@@ -161,6 +161,19 @@ No início do arquivo, edite as seguintes variáveis conforme necessário:
 
 O script vincula cada arquivo KML com a linha correspondente na planilha pela tag `<n>` dentro do `<Document>` do KML. Caso a tag `<n>` não exista, utiliza o nome do arquivo como fallback. A correspondência é feita por texto normalizado (sem acentos, maiúsculas).
 
+### Filtro por Situação do Empreendimento
+
+A planilha possui a coluna **"Situação do Empreendimento"**, que pode conter os valores `A lançar` ou `Lançado`. O script processa **apenas os registros com situação "A lançar"** — registros marcados como "Lançado" são descartados logo após a leitura do Excel, antes de qualquer vinculação com KML ou cálculo de estatísticas (`total_planilha`, área, VGV, unidades etc.).
+
+Esse filtro é aplicado pela função `filtrar_por_situacao()` em `gerar_data.py`, controlada pelas constantes:
+
+| Constante | Padrão | Descrição |
+|---|---|---|
+| `COLUNA_SITUACAO` | `Situação do Empreendimento` | Nome da coluna na planilha |
+| `SITUACAO_INCLUIDA` | `A LANÇAR` | Valor (normalizado para maiúsculas) que é mantido no processamento |
+
+Se a coluna não existir na planilha, o script emite um aviso no console e segue processando todos os registros normalmente (sem filtro).
+
 ---
 
 ## 🏷️ Regionais e Cores
