@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document id="document">
+	<name>Mapa sem título</name>
+	<gx:CascadingStyle kml:id="__managed_style_2156FB2DC03E7A73AC13">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_18E8937C153E7A73AC13">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>1.33333</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0F3531D91E3E7A73AC13">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_18E8937C153E7A73AC13</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2156FB2DC03E7A73AC13</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Placemark id="09E0293AE13E7A73AC0F">
+		<name>Área do Kenj - Fazenda Aurora CPV</name>
+		<LookAt>
+			<longitude>-45.70396636709773</longitude>
+			<latitude>-23.08197103782163</latitude>
+			<altitude>540.4977220207757</altitude>
+			<heading>354.5443199936233</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>6057.753365749378</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0F3531D91E3E7A73AC13</styleUrl>
+		<Polygon>
+			<outerBoundaryIs>
+				<LinearRing>
+					<coordinates>
+						-45.70986493067483,-23.07800154503713,0 -45.70991161449266,-23.07840077044857,0 -45.71014242208018,-23.07886297323071,0 -45.70968836005409,-23.07940728815872,0 -45.70909707597517,-23.07920084277431,0 -45.70835637177304,-23.07949774669899,0 -45.70757380689508,-23.07980754715989,0 -45.70710742210358,-23.08029948027823,0 -45.70669265619603,-23.08072757105784,0 -45.70622570898303,-23.08115788128237,0 -45.7058290849516,-23.08151077796754,0 -45.70519579788563,-23.0821496503791,0 -45.70454199625799,-23.08270691752674,0 -45.70399794074401,-23.08324083575235,0 -45.70339915071515,-23.08373186184761,0 -45.70293781211797,-23.08355324165094,0 -45.70302606103017,-23.08289984987513,0 -45.70299080141324,-23.08170369726592,0 -45.70391908935703,-23.08051022425341,0 -45.70462619508908,-23.07958989112256,0 -45.70472626634282,-23.07851916585031,0 -45.70389763963291,-23.07759210530747,0 -45.70285249810821,-23.07684079150244,0 -45.70168532058759,-23.07635528331328,0 -45.69990159258322,-23.07621789804604,0 -45.70016605246137,-23.07327908830613,0 -45.70180047997234,-23.07325777600315,0 -45.70325119540185,-23.07347901248518,0 -45.7045615575431,-23.07365265235253,0 -45.70568280795572,-23.07320374641558,0 -45.70678769945027,-23.07258790486776,0 -45.70791347981021,-23.07210080894601,0 -45.70833542581588,-23.07256394838847,0 -45.70917706695451,-23.07289988794053,0 -45.70988916489893,-23.07415571301255,0 -45.71041981241746,-23.07507302473328,0 -45.7105534568612,-23.07617176252852,0 -45.71028558313227,-23.07710182749863,0 -45.70986493067483,-23.07800154503713,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+</Document>
+</kml>
