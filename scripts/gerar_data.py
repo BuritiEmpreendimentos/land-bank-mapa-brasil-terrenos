@@ -268,8 +268,12 @@ def _agrupar_kmls(arquivos_kml):
     return kml_por_id, kml_sem_poligono, kml_sem_id
 
 
-def _criar_items(kml_por_id, indice_excel, col_id_real):
-    """Cria a lista de items vinculando KMLs com registros da planilha."""
+def _criar_items(kml_por_id, indice_excel, col_id_real, ids_excluidos_situacao=frozenset()):
+    """Cria a lista de items vinculando KMLs com registros da planilha.
+
+    KMLs cujo único vínculo na planilha foi descartado pelo filtro de situação
+    (todas as linhas 'Lançado') não geram item — não devem aparecer no site.
+    """
     items               = []
     kml_vinculados      = 0
     kml_sem_vinculo     = 0
@@ -306,13 +310,14 @@ def _criar_items(kml_por_id, indice_excel, col_id_real):
         else:
             kml_sem_vinculo += 1
             nao_vinculados.append((nome_display, id_kml or "sem ID", f"ID={id_kml}"))
-            items.append({
-                "id": id_kml,
-                "n":  nome_display,
-                "p":  poligonos,
-                "c":  centroide,
-                "e":  None,
-            })
+            if id_kml not in ids_excluidos_situacao:
+                items.append({
+                    "id": id_kml,
+                    "n":  nome_display,
+                    "p":  poligonos,
+                    "c":  centroide,
+                    "e":  None,
+                })
 
     # ── Passo 2: registros do Excel sem nenhum KML correspondente ──
     sem_kml = 0
@@ -468,7 +473,7 @@ def main():
 
     # ── Criação dos items ─────────────────────────────────────────
     items, kml_vinculados, kml_sem_vinculo, nao_vinculados, sem_kml = \
-        _criar_items(kml_por_id, indice_excel, col_id_real)
+        _criar_items(kml_por_id, indice_excel, col_id_real, set(descartados_por_id.keys()))
 
     sem_localizacao = []
     for item in items:
