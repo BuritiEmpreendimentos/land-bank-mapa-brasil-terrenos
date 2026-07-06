@@ -1,4 +1,4 @@
-# Referência de Colunas — Land Bank Mapa
+# Referência de Colunas: Land Bank
 
 Este documento descreve quais colunas da planilha Excel o sistema lê, o que cada uma representa e quais regras devem ser respeitadas para o sistema funcionar corretamente.
 
@@ -11,7 +11,8 @@ Este documento descreve quais colunas da planilha Excel o sistema lê, o que cad
 | **Os nomes das colunas não podem mudar** | O sistema localiza cada coluna pelo nome exato (sem distinção de maiúsculas/minúsculas, mas o texto precisa ser idêntico). |
 | **A ordem das colunas não importa** | O sistema busca cada coluna pelo nome, não pela posição. Reordenar as colunas na planilha não quebra nada. |
 | **Linhas completamente vazias são ignoradas** | Linhas onde todas as células estão em branco são puladas automaticamente. |
-| **A primeira linha deve ser o cabeçalho** | O sistema lê a primeira linha da aba ativa como cabeçalho. Não pode haver linhas de título ou mesclagem acima dela. |
+| **Os dados ficam na aba `AREAS`** | O script lê especificamente essa aba do workbook (variável `EXCEL_SHEET` em `gerar_data.py`), não a aba marcada como "ativa" ao salvar o arquivo no Excel. |
+| **O cabeçalho é detectado automaticamente** | O sistema procura, dentro da aba `AREAS`, a primeira linha cujo primeiro valor não-nulo seja exatamente `"ID"` e a usa como cabeçalho. Linhas de título acima dela são ignoradas, desde que a primeira célula não seja `"ID"`. |
 
 ---
 
@@ -24,6 +25,7 @@ Este documento descreve quais colunas da planilha Excel o sistema lê, o que cad
 | `ID` | `id` | Texto no formato `MAPnnn` (ex.: `MAP001`, `MAP135`). Deve ser único por área. É a chave que vincula a linha ao arquivo KML correspondente. **Não pode ser alterado depois que o KML já foi nomeado.** |
 | `Nome` | `nome` | Texto livre com o nome da área. Usado na busca e como rótulo quando não há empreendimento definido. |
 | `[ON / OFF]` | `on_off` | Número: `1` = ativo (ON), qualquer outro valor ou vazio = inativo (OFF). Controla o filtro de Status na página. |
+| `Situação do Empreendimento` | *(não exposta em `e`)* | Texto: `A lançar` ou `Lançado`. **Só linhas com "A lançar" entram no site** — "Lançado" é descartado antes de qualquer cálculo. Se a coluna não existir, nenhum filtro é aplicado. |
 
 ### Localização
 

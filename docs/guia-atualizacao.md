@@ -1,4 +1,4 @@
-# Guia de Atualização — Land Bank Mapa
+# Guia de Atualização: Land Bank
 
 Este documento explica como adicionar novas áreas, editar áreas existentes e atualizar o site após qualquer mudança na planilha ou nos arquivos KML.
 
@@ -10,7 +10,9 @@ Este documento explica como adicionar novas áreas, editar áreas existentes e a
 1. Editar a planilha Excel  →  2. Adicionar/renomear KML  →  3. Rodar o script  →  4. Publicar
 ```
 
-O site não lê a planilha diretamente. O script `gerar_data.py` combina a planilha com os KMLs e gera o arquivo `data.js`, que é o que o site usa. **Toda atualização termina rodando o script e publicando o `data.js`.**
+O site não lê a planilha diretamente. O script `gerar_data.py` combina a planilha com os KMLs e gera o arquivo `data.json`, que é o que o site usa (carregado via `fetch()` em `app.js`). **Toda atualização termina rodando o script e publicando o `data.json`.**
+
+> A planilha (`areas_land_bank_com_id.xlsx`) tem várias abas. O script lê especificamente a aba **`AREAS`** (configurado em `EXCEL_SHEET` no início de `gerar_data.py`) — não a aba que estiver marcada como "ativa" ao salvar o arquivo no Excel.
 
 ---
 
@@ -65,7 +67,7 @@ MAP 137.kml               ← espaço entre MAP e o número
 
 1. Localize a linha pelo ID da área na planilha.
 2. Edite os campos desejados.
-3. **Não altere o ID** — ele é a chave que vincula a linha ao KML.
+3. **Não altere o ID**: ele é a chave que vincula a linha ao KML.
 4. Salve e rode o script (passo 4).
 
 ### Alterar o polígono (KML)
@@ -99,16 +101,17 @@ Evite ao máximo. Se for necessário:
 Após qualquer alteração na planilha ou nos KMLs:
 
 ```powershell
-# No terminal, dentro da pasta do projeto:
+# No terminal, a partir da pasta scripts/:
+cd scripts
 python gerar_data.py
 ```
 
-O script vai imprimir um resumo no terminal. Verifique se não há mensagens de erro (❌) ou avisos de ID sem vínculo (⚠️) inesperados.
+O script vai imprimir um resumo no terminal. Verifique se não há mensagens de erro (❌) ou avisos de ID sem vínculo (⚠️) inesperados. Preste atenção também às seções "SEM LOCALIZAÇÃO" e "IDs COM SITUAÇÃO MISTA", quando aparecerem — indicam registros que ficaram sem KML ou com linhas conflitantes de "Situação do Empreendimento".
 
 Depois, publique o arquivo gerado:
 
 ```powershell
-git add data.js
+git add src/data.json
 git commit -m "atualização de dados"
 git push
 ```

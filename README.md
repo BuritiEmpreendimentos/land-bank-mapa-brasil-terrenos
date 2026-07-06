@@ -1,10 +1,10 @@
-# 🗺️ Land Bank — Grupo Brasil Terrenos
+# Land Bank: Brasil Terrenos
 
-Plataforma web interativa para visualização e gestão do banco de terrenos do **Grupo Brasil Terrenos**. A aplicação exibe empreendimentos imobiliários em um mapa interativo, com polígonos georreferenciados extraídos de arquivos KML e dados financeiros e operacionais provenientes de uma planilha Excel.
+Plataforma web interativa para visualização e gestão do banco de terrenos da **Brasil Terrenos**. A aplicação exibe empreendimentos imobiliários em um mapa interativo, com polígonos georreferenciados extraídos de arquivos KML e dados financeiros e operacionais provenientes de uma planilha Excel.
 
 ---
 
-## ✨ Funcionalidades Principais
+## Funcionalidades Principais
 
 ### Mapa Interativo
 - Visualização de polígonos de terrenos sobre mapa base (OpenStreetMap) ou satélite (Esri/Google)
@@ -41,7 +41,7 @@ Ao selecionar um terreno, exibe:
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 ### Frontend
 | Tecnologia | Versão | Uso |
@@ -65,11 +65,11 @@ Ao selecionar um terreno, exibe:
 |---|---|
 | `.kml` | Polígonos georreferenciados dos terrenos (Google Earth) |
 | `.xlsx` | Planilha com dados financeiros e operacionais |
-| `data.js` | Arquivo gerado — alimenta o site em runtime |
+| `data.json` | Arquivo gerado — carregado via `fetch()` em `app.js` em tempo de execução |
 
 ---
 
-## 📁 Estrutura do Repositório
+## Estrutura do Repositório
 
 ```
 land-bank-mapa-brasil-terrenos/
@@ -84,7 +84,7 @@ land-bank-mapa-brasil-terrenos/
 │   ├── map.js                        # Mapa Leaflet: camadas e marcadores
 │   ├── ui.js                         # Interface: lista, popup, stats, sidebar
 │   ├── styles.css                    # Estilos CSS
-│   ├── data.js                       # GERADO — não editar manualmente
+│   ├── data.json                     # GERADO — não editar manualmente
 │   └── assets/
 │       ├── favicons/                 # Favicon e ícones PWA
 │       └── images/                   # Logo e demais imagens
@@ -112,17 +112,17 @@ land-bank-mapa-brasil-terrenos/
 
 ---
 
-## ⚙️ Pipeline de Atualização de Dados
+## Pipeline de Atualização de Dados
 
-O site é alimentado pelo arquivo `data.js`, gerado automaticamente pelo script `gerar_data.py`. O fluxo é:
+O site é alimentado pelo arquivo `data.json`, gerado automaticamente pelo script `gerar_data.py` e carregado via `fetch()` em `app.js`. O fluxo é:
 
 ```
 data/areas_land_bank_com_id.xlsx  ───┐
-                                     ├──► scripts/gerar_data.py  ──►  src/data.js  ──►  Site
+                                     ├──► scripts/gerar_data.py  ──►  src/data.json  ──►  Site
 data/kml/*.kml                    ───┘
 ```
 
-### Como gerar o `data.js`
+### Como gerar o `data.json`
 
 **Pré-requisito:** Python 3.11 ou superior.
 
@@ -137,10 +137,10 @@ cd scripts
 python gerar_data.py
 ```
 
-**3. Faça commit e push do `src/data.js` gerado:**
+**3. Faça commit e push do `src/data.json` gerado:**
 ```bash
-git add src/data.js
-git commit -m "dados: atualiza data.js"
+git add src/data.json
+git commit -m "dados: atualiza data.json"
 git push
 ```
 
@@ -153,17 +153,21 @@ No início do arquivo, edite as seguintes variáveis conforme necessário:
 | Variável | Padrão | Descrição |
 |---|---|---|
 | `EXCEL_PATH` | `../data/areas_land_bank_com_id.xlsx` | Caminho da planilha Excel |
-| `EXCEL_SHEET` | `None` (primeira aba) | Nome da aba da planilha |
+| `EXCEL_SHEET` | `"AREAS"` | Nome da aba da planilha com os dados. **Importante:** o workbook tem várias abas (`AREAS`, `Painel`, `Excluído da base`, etc.) — se essa variável for `None`, o script lê `wb.active`, que é a aba marcada como selecionada no arquivo salvo no Excel (nem sempre `AREAS`), podendo vir vazia. |
 | `KML_FOLDER` | `../data/kml` | Pasta com os arquivos KML |
-| `OUTPUT_PATH` | `../src/data.js` | Arquivo de saída |
+| `OUTPUT_PATH` | `../src/data.json` | Arquivo de saída |
+| `COLUNA_ID` | `ID` | Coluna da planilha usada como chave de vinculação |
+| `ID_REGEX` | `^(MAP\d+)` | Padrão usado para extrair o ID do início do nome do arquivo KML |
+
+O script também detecta automaticamente a linha de cabeçalho dentro da aba: percorre as linhas até achar a primeira cujo primeiro valor não-nulo seja exatamente `"ID"`.
 
 ### Lógica de vinculação KML ↔ Planilha
 
-O script vincula cada arquivo KML com a linha correspondente na planilha pela tag `<n>` dentro do `<Document>` do KML. Caso a tag `<n>` não exista, utiliza o nome do arquivo como fallback. A correspondência é feita por texto normalizado (sem acentos, maiúsculas).
+O script extrai o ID (`MAP###`) do início do nome do arquivo KML (ou, na ausência, da tag `<name>` do KML) e vincula com a coluna **`ID`** da planilha — essa é a chave de vinculação, não o nome do empreendimento. Múltiplos KMLs com o mesmo ID têm seus polígonos unidos num único item por linha correspondente da planilha.
 
 ### Filtro por Situação do Empreendimento
 
-A planilha possui a coluna **"Situação do Empreendimento"**, que pode conter os valores `A lançar` ou `Lançado`. O script processa **apenas os registros com situação "A lançar"** — registros marcados como "Lançado" são descartados logo após a leitura do Excel, antes de qualquer vinculação com KML ou cálculo de estatísticas (`total_planilha`, área, VGV, unidades etc.).
+A planilha possui a coluna **"Situação do Empreendimento"**, que pode conter os valores `A lançar` ou `Lançado`. O script processa **apenas os registros com situação "A lançar"** — registros marcados como "Lançado" são descartados logo após a leitura do Excel, antes de qualquer vinculação com KML ou cálculo de estatísticas (`total_planilha`, área, VGV, unidades etc.). Um ID pode ter situação mista (algumas linhas "A lançar", outras "Lançado") — nesse caso ele segue no processamento, mas o relatório do script sinaliza a situação mista.
 
 Esse filtro é aplicado pela função `filtrar_por_situacao()` em `gerar_data.py`, controlada pelas constantes:
 
@@ -172,11 +176,15 @@ Esse filtro é aplicado pela função `filtrar_por_situacao()` em `gerar_data.py
 | `COLUNA_SITUACAO` | `Situação do Empreendimento` | Nome da coluna na planilha |
 | `SITUACAO_INCLUIDA` | `A LANÇAR` | Valor (normalizado para maiúsculas) que é mantido no processamento |
 
-Se a coluna não existir na planilha, o script emite um aviso no console e segue processando todos os registros normalmente (sem filtro).
+Se a coluna não existir na aba, o script emite um aviso no console e segue processando todos os registros normalmente (sem filtro).
+
+### Terrenos sem localização
+
+Itens sem polígono e sem centroide (`p: []`, `c: null`) — seja por falta de KML ou por KML sem geometria válida — não aparecem no mapa, mas continuam na lista lateral com um badge de destaque "⚠ sem localização" (`src/ui.js`, classe `.no-location` em `src/styles.css`). O relatório do script lista esses casos na seção "SEM LOCALIZAÇÃO".
 
 ---
 
-## 🏷️ Regionais e Cores
+## Regionais e Cores
 
 | Regional | Cor |
 |---|---|
@@ -192,7 +200,7 @@ Se a coluna não existir na planilha, o script emite um aviso no console e segue
 
 ---
 
-## 🚀 Como Executar Localmente
+## Como Executar Localmente
 
 Por ser uma aplicação estática (HTML + JS + CSS), basta servir a pasta `src/` com qualquer servidor HTTP local:
 
@@ -212,27 +220,27 @@ Acesse em: `http://localhost:8000`
 
 ---
 
-## 🌐 Deploy
+## Deploy
 
-A aplicação é um site estático — qualquer hospedagem de arquivos estáticos funciona (GitHub Pages, Netlify, servidor próprio, etc.).
+A aplicação é um site estático, qualquer hospedagem de arquivos estáticos funciona (GitHub Pages, Netlify, servidor próprio, etc.).
 
 **Fluxo atual (manual):**
 
 1. Atualizar `areas_land_bank_com_id.xlsx` e/ou arquivos em `kml/`
-2. Rodar `python gerar_data.py` para gerar o `data.js` atualizado
-3. Commitar e fazer push do `data.js`:
+2. Rodar `python gerar_data.py` (a partir da pasta `scripts/`) para gerar o `data.json` atualizado
+3. Commitar e fazer push do `data.json`:
    ```bash
-   git add src/data.js
-   git commit -m "dados: atualiza data.js"
+   git add src/data.json
+   git commit -m "dados: atualiza data.json"
    git push
    ```
 4. O servidor/hospedagem serve os arquivos atualizados
 
-> O `data.js` é o único arquivo que muda a cada atualização de dados — os demais (`index.html`, `app.js`, `styles.css`) só mudam quando há alterações na aplicação.
+> O `data.json` é o único arquivo que muda a cada atualização de dados, os demais (`index.html`, `app.js`, `styles.css`) só mudam quando há alterações na aplicação.
 
 ---
 
-## 📊 Dados Exibidos no Dashboard
+## Dados Exibidos no Dashboard
 
 O dashboard na sidebar exibe as seguintes métricas agregadas, calculadas automaticamente pelo `gerar_data.py` a partir da planilha:
 
@@ -244,36 +252,40 @@ O dashboard na sidebar exibe as seguintes métricas agregadas, calculadas automa
 
 ---
 
-## 🗂️ Estrutura do `data.js`
+## Estrutura do `data.json`
 
-O arquivo gerado contém um único objeto JavaScript `DATA` com a seguinte estrutura:
+O arquivo gerado é um JSON simples, carregado via `fetch('src/data.json')` em `app.js`:
 
 ```javascript
-const DATA = {
-  items: [
+{
+  "items": [
     {
-      n: "Nome do Terreno",           // Nome (tag <n> do KML ou nome do arquivo)
-      p: [[[lat, lng], ...]],         // Lista de polígonos
-      c: [lat, lng],                  // Centroide
-      e: {                            // Dados da planilha (null se sem vínculo)
-        nome, codigo, regional, cidade,
-        empreendimento, tipo, year,
-        on_off, area_total, total_unidades,
-        vgv_total, vgv_bt,
-        custo_terreno, custo_construcao,
-        participacao_buriti, data_lancamento
+      "id": "MAP001",                   // ID no formato MAP### (chave de vinculação)
+      "n":  "Nome do Terreno",          // Nome (tag <name> do KML ou nome do arquivo)
+      "p":  [[[lat, lng], ...]],        // Lista de polígonos ([] se sem KML/geometria)
+      "c":  [lat, lng],                 // Centroide (null se sem geometria)
+      "e":  {                           // Dados da planilha (null se sem vínculo)
+        "nome": "...", "codigo": "...", "regional": "...", "cidade": "...", "uf": "...",
+        "empreendimento": "...", "tipo": "...", "year": "...",
+        "on_off": 1, "area_total": 0, "total_unidades": 0,
+        "vgv_total": 0, "vgv_bt": 0,
+        "custo_terreno": 0, "custo_construcao": 0,
+        "participacao_buriti": 0, "data_lancamento": "..."
       }
-    },
+    }
     // ...
   ],
-  colors: { "NORTE": "#c0392b", ... },  // Mapeamento regional → cor
-  stats: {                               // Estatísticas globais
-    total, on_map, total_units,
-    total_area, total_vgv, total_vgv_bt
+  "colors": { "NORTE": "#c0392b", "...": "..." },  // Mapeamento regional → cor
+  "stats": {                                        // Estatísticas globais
+    "total": 0, "total_planilha": 0, "total_ativo": 0, "total_inativo": 0,
+    "total_units": 0, "total_area": 0, "total_vgv": 0, "total_vgv_bt": 0
   },
-  regional_summary: {                    // Resumo por regional
-    "NORTE": { count, units, vgv },
+  "regional_summary": {                             // Resumo por regional
+    "NORTE": { "count": 0, "units": 0, "vgv": 0 }
     // ...
-  }
-};
+  },
+  "last_updated": "Dados atualizados em 6 de julho de 2026"
+}
 ```
+
+> Detalhamento completo de cada campo em [`docs/formato-data-js.md`](docs/formato-data-js.md).

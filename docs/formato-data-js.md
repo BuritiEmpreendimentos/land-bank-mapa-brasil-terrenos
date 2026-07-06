@@ -1,6 +1,6 @@
-# Formato do arquivo `data.js`
+# Formato do arquivo `data.json`
 
-O arquivo `data.js` é gerado automaticamente pelo script `gerar_data.py` e **não deve ser editado manualmente**. Ele exporta uma única constante global `DATA` consumida por `app.js`.
+O arquivo `src/data.json` é gerado automaticamente pelo script `gerar_data.py` e **não deve ser editado manualmente**. É um JSON puro, carregado via `fetch('src/data.json')` em `app.js` (não um script global `DATA`).
 
 ---
 
