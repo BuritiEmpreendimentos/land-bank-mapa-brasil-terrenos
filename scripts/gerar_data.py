@@ -11,7 +11,7 @@
 # ─────────────────────────────────────────────
 
 EXCEL_PATH  = "../data/areas_land_bank_com_id.xlsx"
-EXCEL_SHEET = None
+EXCEL_SHEET = "AREAS"
 KML_FOLDER  = "../data/kml"
 OUTPUT_PATH = "../src/data.json"
 COLUNA_ID   = "ID"
@@ -80,7 +80,7 @@ def filtrar_por_situacao(registros, cabecalho, col_id=COLUNA_ID,
     col_id_real = next((c for c in cabecalho if c.strip().lower() == col_id.strip().lower()), None)
     if not col_real:
         print(f"  ℹ️  Coluna '{col_situacao}' não encontrada — nenhum filtro de situação aplicado.")
-        return registros, 0, set()
+        return registros, 0, {}
 
     incluidos, descartados, contagem_descartados_por_id = [], 0, {}
     for reg in registros:

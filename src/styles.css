@@ -830,6 +830,27 @@ body {
   font-style: italic;
 }
 
+.no-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #b5590a;
+  background: rgba(226, 122, 10, 0.12);
+  border: 1px solid rgba(226, 122, 10, 0.28);
+  padding: 2px 6px 2px 5px;
+  border-radius: 4px;
+}
+
+.no-location svg {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
 /* Divider section labels (could be added dynamically) */
 .list-section-label {
   font-size: 9px;

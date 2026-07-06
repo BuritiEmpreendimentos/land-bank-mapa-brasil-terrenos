@@ -394,7 +394,7 @@ function buildListItem(item, idx, centroid) {
       ${locationLabel ? `<span class="list-item-city">${locationLabel}</span>` : ''}
       ${unitsText     ? `<span class="list-item-units">${unitsText}</span>` : ''}
       ${!linked       ? '<span class="no-match">sem dados</span>' : ''}
-      ${!hasLocation  ? '<span class="no-match" title="Sem coordenadas cadastradas">sem loc.</span>' : ''}
+      ${!hasLocation  ? '<span class="no-location" title="Sem coordenadas cadastradas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/></svg>sem localização</span>' : ''}
     </div>
     <div class="list-item-header">
       <span class="list-item-name" title="${item.n}">${displayName}</span>
