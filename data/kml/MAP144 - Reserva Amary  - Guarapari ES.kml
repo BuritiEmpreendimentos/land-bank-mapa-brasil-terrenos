@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document id="document">
+	<name>Reserva Amary  - Guarapari ES</name>
+	<Schema name="__managed_schema" id="__managed_schema">
+		<SimpleField type="int" name="18C7AFDD073E9DF9150A">
+			<displayName>Precisão (m)</displayName>
+		</SimpleField>
+		<SimpleField type="int" name="0FC97F00623E9DF910C7">
+			<displayName>Precisão (m)</displayName>
+		</SimpleField>
+	</Schema>
+	<gx:CascadingStyle kml:id="__managed_style_051D0475E03E9DF910D7">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2.13333</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_19A0313BFA3E9DF910D7">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0B3991B5CF3E9DF910D6">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_051D0475E03E9DF910D7</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_19A0313BFA3E9DF910D7</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Placemark id="0EFBE7B2923E9DF910C6">
+		<name>Marcador de local sem título</name>
+		<LookAt>
+			<longitude>-40.53605756755763</longitude>
+			<latitude>-20.7111562961274</latitude>
+			<altitude>9.866195257840143</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>5022.526075766073</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0B3991B5CF3E9DF910D6</styleUrl>
+		<ExtendedData>
+			<SchemaData schemaUrl="#__managed_schema">
+				<SimpleData name="0FC97F00623E9DF910C7">0</SimpleData>
+			</SchemaData>
+		</ExtendedData>
+		<Point>
+			<extrude>1</extrude>
+			<coordinates>-40.53545484715834,-20.70896695922807,24.37861525133553</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="009DEF29E73E9DF9150A">
+		<name>Reserva Amary - Enseada Azul  - Guarapari ES</name>
+		<LookAt>
+			<longitude>-40.53605756755763</longitude>
+			<latitude>-20.7111562961274</latitude>
+			<altitude>9.866195257840143</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>5022.526075766073</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0B3991B5CF3E9DF910D6</styleUrl>
+		<ExtendedData>
+			<SchemaData schemaUrl="#__managed_schema">
+				<SimpleData name="18C7AFDD073E9DF9150A">0</SimpleData>
+			</SchemaData>
+		</ExtendedData>
+		<Point>
+			<extrude>1</extrude>
+			<coordinates>-40.53545484715834,-20.70896695922807,24.37861525133553</coordinates>
+		</Point>
+	</Placemark>
+</Document>
+</kml>
